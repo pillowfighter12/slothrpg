@@ -38,17 +38,26 @@ def enter_cave(player):
     enemy_counter = 0
     boss_encounter = monster("Black Widow", 300)
     print('The cave seemed to be emitting something from within.')
-    enemy = monster("Cave Spider", 50)
-    while enemy_counter == 0:
+    if enemy_counter == 0:
+        enemy = monster("Cave Spider", 50)
         encounter_chance = 0.6
         print("The cave continues to get darker the deeper you go in")
         enemy_counter = time_lapse(10, 20, encounter_chance, enemy, player, enemy_counter)
         print("You have encountered " + str(enemy_counter) + " enemy")
-        for i in range(4):  
+        for i in range(4):
             time.sleep(.5)
             print('*')
-        break
     print("After defeating the cave spider you found a torch and equipped it as a weapon")
+    if enemy_counter == 1:
+        enemy = monster("Cave Spider", 50)
+        encounter_chance = 0.6
+        print("The cave continues to get darker the deeper you go in")
+        enemy_counter = time_lapse(10, 20, encounter_chance, enemy, player, enemy_counter)
+        print("You have encountered " + str(enemy_counter) + " enemy")
+        print(enemy_counter)
+        for i in range(4):
+            time.sleep(.5)
+            print('*')
 
 def follow_river(player): 
     enemy = monster("Crocodile", 500)
@@ -56,7 +65,7 @@ def follow_river(player):
     print('You followed the footsteps to the river')
     time_lapse(5, 15, encounter_chance, enemy, player) 
 
-# Used to generate a random fight encounter in the cave
+# Used to generate a random fight encounter in the cave 
 
 def time_lapse(min_time, max_time, encounter_chance, enemy, player, enemy_counter):
     for i in range(random.randint(min_time, max_time)):

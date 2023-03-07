@@ -7,7 +7,7 @@ from characters import create_character
 
 def main():
     player_name = input("Enter your character name:")
-    player = create_character(player_name)
+    player = create_character(player_name, 100, 20)
     print("Welcome " + player_name)
     welcome_message()
     path = path_choice()
@@ -36,7 +36,7 @@ def path_choice():
 # Placeholder for future engagements from within the cave(Kind of like adding a whole chapter)
 def enter_cave(player):
     enemy_counter = 0
-    boss_encounter = monster("Black Widow", 300)
+    boss_encounter = monster("Black Widow", 1000)
     print('The cave seemed to be emitting something from within.')
     if enemy_counter == 0:
         enemy = monster("Cave Spider", 50)
@@ -45,9 +45,11 @@ def enter_cave(player):
         enemy_counter = time_lapse(10, 20, encounter_chance, enemy, player, enemy_counter)
         print("You have encountered " + str(enemy_counter) + " enemy")
         for i in range(4):
-            time.sleep(.5)
-            print('*')
-    print("After defeating the cave spider you found a torch and equipped it as a weapon")
+            print('************************')
+            print(player_name)
+    print("After defeating the cave spider you found a torch and some armor")
+
+    player = create_character(player.name, 500, 100)
     if enemy_counter == 1:
         enemy = monster("Cave Spider", 50)
         encounter_chance = 0.6
@@ -56,8 +58,7 @@ def enter_cave(player):
         print("You have encountered " + str(enemy_counter) + " enemy")
         print(enemy_counter)
         for i in range(4):
-            time.sleep(.5)
-            print('*')
+            print('************************')
 
 def follow_river(player): 
     enemy = monster("Crocodile", 500)
@@ -88,7 +89,7 @@ def time_lapse(min_time, max_time, encounter_chance, enemy, player, enemy_counte
 
 def engage_fight(enemy, player):
     print("You have encountered a enemy!", enemy.name)
-
+    damage = player.damage
     while player.hitpoints > 0 and enemy.hitpoints > 0:
         print("What would you like to do? ")
 
@@ -96,7 +97,6 @@ def engage_fight(enemy, player):
         if choice not in ['A', 'B']:
             print("Input must be A or B")
         elif choice == 'A':
-            damage = player.attack_with_claws()
             enemy.hitpoints -= damage
             print("You deal", damage, "damage to the", enemy.name)
             damage_taken = enemy.attack()

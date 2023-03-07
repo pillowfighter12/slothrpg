@@ -40,8 +40,8 @@ def enter_cave(player):
     encounter_chance = 0.6
     enemy_counter = 0
     print("The cave continues to get darker the deeper you go in")
-    time_lapse(10, 20, encounter_chance, enemy, player, enemy_counter)
-    print(enemy_counter)
+    enemy_counter = time_lapse(10, 20, encounter_chance, enemy, player, enemy_counter)
+    print("You have encountered " + enemy_counter)
 
 def follow_river(player): 
     enemy = monster("Crocodile", 500)

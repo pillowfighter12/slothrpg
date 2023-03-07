@@ -35,13 +35,20 @@ def path_choice():
         
 # Placeholder for future engagements from within the cave(Kind of like adding a whole chapter)
 def enter_cave(player):
+    enemy_counter = 0
+    boss_encounter = monster("Black Widow", 300)
     print('The cave seemed to be emitting something from within.')
     enemy = monster("Cave Spider", 50)
-    encounter_chance = 0.6
-    enemy_counter = 0
-    print("The cave continues to get darker the deeper you go in")
-    enemy_counter = time_lapse(10, 20, encounter_chance, enemy, player, enemy_counter)
-    print("You have encountered " + enemy_counter)
+    while enemy_counter == 0:
+        encounter_chance = 0.6
+        print("The cave continues to get darker the deeper you go in")
+        enemy_counter = time_lapse(10, 20, encounter_chance, enemy, player, enemy_counter)
+        print("You have encountered " + str(enemy_counter) + " enemy")
+        for i in range(4):  
+            time.sleep(.5)
+            print('*')
+        break
+    print("After defeating the cave spider you found a torch and equipped it as a weapon")
 
 def follow_river(player): 
     enemy = monster("Crocodile", 500)
@@ -71,7 +78,7 @@ def time_lapse(min_time, max_time, encounter_chance, enemy, player, enemy_counte
 
 
 def engage_fight(enemy, player):
-    print("You have encountered a", enemy.name)
+    print("You have encountered a enemy!", enemy.name)
 
     while player.hitpoints > 0 and enemy.hitpoints > 0:
         print("What would you like to do? ")

@@ -15,7 +15,7 @@ class maincharacter:
 
 def create_character(name, hitpoints, damage):
     player = maincharacter(name, hitpoints, damage)
-    print("Welcome " + player.name)
+    print(player.name)
     return player
 
     

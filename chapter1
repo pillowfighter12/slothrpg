@@ -1,21 +1,21 @@
-import sys
 import random
 import time
 from monsters import monster
-from characters import create_character
+from sloth import create_sloth
 
 
 def main():
-    global player_name
-    player_name = input("Enter your character name:")
-    player = create_character(player_name, 100, 20)
-    print("Welcome " + player_name)
+    #sloth name is global so that you can recall it many places without having to pass the variable .   
+    global sloth_name
+    sloth_name = input("Enter your sloth name:")
+    sloth = create_sloth(sloth_name, 100, 20)
+    print("Welcome " + sloth_name)
     welcome_message()
     path = path_choice()
     if path == 'A':
-        enter_cave(player)
+        enter_cave(sloth)
     elif path == 'B':
-        follow_river(player)
+        follow_river(sloth)
 
 def welcome_message():
     print('You startle as you awaken on the ground with a broken branch next to you.')
@@ -35,25 +35,25 @@ def path_choice():
             return input_choice
         
 # Placeholder for future engagements from within the cave(Kind of like adding a whole chapter)
-def enter_cave(player):
+def enter_cave(sloth):
     enemy_counter = 0
     print('The cave seemed to be emitting something from within.')
     if enemy_counter == 0:
         enemy = monster("Cave Spider", 50, 15)
         encounter_chance = 0.6
         print("The cave continues to get darker the deeper you go in")
-        enemy_counter = time_lapse(10, 20, encounter_chance, enemy, player, enemy_counter)
-        print("You have encountered " + str(enemy_counter) + " enemy")
+        enemy_counter = time_lapse(10, 20, encounter_chance, enemy, sloth, enemy_counter)
+        print("You have encountered " + str(enemy_counter) + " enemys")
 
     print("After defeating the cave spider you found a torch and some armor")
 
-    player = create_character(player_name, 500, 100)
+    sloth = create_sloth(sloth_name, 500, 100)
     if enemy_counter == 1:
         enemy = monster("Cave Spider", 50, 25)
         encounter_chance = 0.6
         print("The cave continues to get darker the deeper you go in")
-        enemy_counter = time_lapse(10, 20, encounter_chance, enemy, player, enemy_counter)
-        print("You have encountered " + str(enemy_counter) + " enemy")
+        enemy_counter = time_lapse(10, 20, encounter_chance, enemy, sloth, enemy_counter)
+        print("You have encountered " + str(enemy_counter) + " enemys")
         print(enemy_counter)
 
 
@@ -61,20 +61,20 @@ def enter_cave(player):
         enemy = monster("Black Widow", 1000,49)
         encounter_chance = 1
         print("You get to the end of the cave and a MASSIVE spider appears")
-        enemy_counter = time_lapse(10, 20, encounter_chance, enemy, player, enemy_counter)
-        print("You have encountered " + str(enemy_counter) + " enemy")
+        enemy_counter = time_lapse(10, 20, encounter_chance, enemy, sloth, enemy_counter)
+        print("You have encountered " + str(enemy_counter) + " enemys")
         print(enemy_counter)
 
 
-def follow_river(player): 
+def follow_river(sloth): 
     enemy = monster("Crocodile", 500)
     encounter_chance = 1                
     print('You followed the footsteps to the river')
-    time_lapse(5, 15, encounter_chance, enemy, player) 
+    time_lapse(5, 15, encounter_chance, enemy, sloth) 
 
 # Used to generate a random fight encounter in the cave 
 
-def time_lapse(min_time, max_time, encounter_chance, enemy, player, enemy_counter):
+def time_lapse(min_time, max_time, encounter_chance, enemy, sloth, enemy_counter):
     for i in range(random.randint(min_time, max_time)):
         print(" . . . ")
         time.sleep(1)
@@ -83,7 +83,7 @@ def time_lapse(min_time, max_time, encounter_chance, enemy, player, enemy_counte
         if chance < encounter_chance and enemy:
             enemy_counter += 1
             print("A", enemy.name, "approaches!")
-            if engage_fight(enemy, player):
+            if engage_fight(enemy, sloth):
                 enemy = None
                 print(enemy_counter)
                 return enemy_counter
@@ -93,11 +93,11 @@ def time_lapse(min_time, max_time, encounter_chance, enemy, player, enemy_counte
 
 
 
-def engage_fight(enemy, player):
+def engage_fight(enemy, sloth):
     print("You have encountered a enemy!", enemy.name)
-    damage = player.damage
+    damage = sloth.damage
     damange_taken = enemy.damage
-    while player.hitpoints > 0 and enemy.hitpoints > 0:
+    while sloth.hitpoints > 0 and enemy.hitpoints > 0:
         print("What would you like to do? ")
 
         choice = input()
@@ -107,19 +107,19 @@ def engage_fight(enemy, player):
             enemy.hitpoints -= damage
             print("You deal", damage, "damage to the", enemy.name)
             damage_taken = enemy.damage
-            player.hitpoints -= damage_taken
+            sloth.hitpoints -= damage_taken
             print("You have taken", damage_taken, " damage to the face")
-            print(player.name, player.hitpoints)
+            print(sloth.name, sloth.hitpoints)
             print(str(enemy.name) + " " + str(enemy.hitpoints))
             if enemy.hitpoints <= 0:
                 print("You defeated the " + enemy.name)
                 print("******************")
                 return True
-            elif player.hitpoints <= 0:
-                print(player.name + " has fainted")
+            elif sloth.hitpoints <= 0:
+                print(sloth.name + " has fainted")
                 return True
             
-            elif player.hitpoints <= 0 and enemy.hitpoints <= 0:
+            elif sloth.hitpoints <= 0 and enemy.hitpoints <= 0:
                 print("You have both fainted!")
                 
     return False

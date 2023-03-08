@@ -1,4 +1,4 @@
-class maincharacter:
+class mainsloth:
     def __init__(self, name, hitpoints, damage):
         self.name = name
         self.hitpoints = hitpoints
@@ -13,10 +13,10 @@ class maincharacter:
 
         
 
-def create_character(name, hitpoints, damage):
-    player = maincharacter(name, hitpoints, damage)
-    print(player.name)
-    return player
+def create_sloth(name, hitpoints, damage):
+    sloth = mainsloth(name, hitpoints, damage)
+    print(sloth.name)
+    return sloth
 
     
 

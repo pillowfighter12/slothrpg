@@ -8,7 +8,7 @@ def main():
     #sloth name is global so that you can recall it many places without having to pass the variable .   
     global sloth_name
     sloth_name = input("Enter your sloth name:")
-    sloth = create_sloth(sloth_name, 100, 20)
+    sloth = create_sloth(sloth_name, 100, 100, 20)
     print("Welcome " + sloth_name)
     welcome_message()
     path = path_choice()
@@ -47,7 +47,7 @@ def enter_cave(sloth):
 
     print("After defeating the cave spider you found a torch and some armor")
 
-    sloth = create_sloth(sloth_name, 500, 100)
+    sloth = create_sloth(sloth_name, 100, 100, 100)
     if enemy_counter == 1:
         enemy = monster("Cave Spider", 50, 25)
         encounter_chance = 0.6
@@ -97,29 +97,29 @@ def engage_fight(enemy, sloth):
     print("You have encountered a enemy!", enemy.name)
     damage = sloth.damage
     damange_taken = enemy.damage
-    while sloth.hitpoints > 0 and enemy.hitpoints > 0:
+    while sloth.hp > 0 and enemy.hp > 0:
         print("What would you like to do? ")
 
         choice = input()
         if choice not in ['A', 'B']:
             print("Input must be A or B")
         elif choice == 'A':
-            enemy.hitpoints -= damage
+            enemy.hp -= damage
             print("You deal", damage, "damage to the", enemy.name)
             damage_taken = enemy.damage
-            sloth.hitpoints -= damage_taken
+            sloth.hp -= damage_taken
             print("You have taken", damage_taken, " damage to the face")
-            print(sloth.name, sloth.hitpoints)
-            print(str(enemy.name) + " " + str(enemy.hitpoints))
-            if enemy.hitpoints <= 0:
+            print(sloth.name, sloth.hp)
+            print(str(enemy.name) + " " + str(enemy.hp))
+            if enemy.hp <= 0:
                 print("You defeated the " + enemy.name)
                 print("******************")
                 return True
-            elif sloth.hitpoints <= 0:
+            elif sloth.hp <= 0:
                 print(sloth.name + " has fainted")
                 return True
             
-            elif sloth.hitpoints <= 0 and enemy.hitpoints <= 0:
+            elif sloth.hp <= 0 and enemy.hp <= 0:
                 print("You have both fainted!")
                 
     return False

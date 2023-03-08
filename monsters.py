@@ -1,9 +1,9 @@
 import random
 
 class monster:
-    def __init__(self, name, hitpoints, damage):
+    def __init__(self, name, hp, damage):
         self.name = name
-        self.hitpoints = hitpoints
+        self.hp = hp
         self.damage = damage
 
     def attack(self):

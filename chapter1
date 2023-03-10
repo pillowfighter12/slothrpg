@@ -13,28 +13,30 @@ s_inventory = inventory()
 def main():
     #sloth name is global so that you can recall it many places without having to pass the variable .   
     sloth_name = input("Enter your sloth name:")
-    sloth = mainsloth(sloth_name, 100, 100, 20)
-    print("Welcome " + sloth_name)
+    sloth = mainsloth(name=sloth_name, maxhp=100, hp=100, damage=20)
+    print(f"Welcome {sloth_name}")
     welcome_message()
     path = path_choice()
-    if path == 'A':
+    if path == "A":
         enter_cave(sloth)
-    elif path == 'B':
+    elif path == "B":
         follow_river(sloth)
 
 def welcome_message():
-    print('You startle as you awaken on the ground with a broken branch next to you.')
-    print('As you cumbersously investigate your surroundings you come across some foot prints and begin to follow.')
-    print('Eventually you come across two pathes.')
-    print('What path should you follow?')
-    print("\u0332".join('Type A:') + (' To follow the path going towards the cave.'))
-    print("\u0332".join('Type B:') + (' To follow the path that follows the river.'))
-    
+    type_a = "\u0332".join("Type A:")
+    type_b = "\u0332".join("Type B:")
+    print(f"""You startle as you awaken on the ground with a broken branch next to you.
+As you cumbersously investigate your surroundings you come across some foot prints and begin to follow.
+Eventually you come across two pathes.
+What path should you follow?
+{type_a} +   To follow the path going towards the cave.
+{type_b} +   To follow the path that follows the river.""")
+
 
 def path_choice():
     while True:
         input_choice = input()
-        if input_choice not in ['A', 'B']:
+        if input_choice not in ["A", "B"]:
             print("Invalid input")
         else:
             return input_choice
@@ -42,7 +44,7 @@ def path_choice():
 def enter_cave(sloth):
 
     enemy_counter = 0
-    print('The cave seemed to be emitting something from within.')
+    print("The cave seemed to be emitting something from within.")
     if enemy_counter == 0:
         enemy = monster("Cave Spider", 50, 15)
         encounter_chance = 0.6
@@ -83,7 +85,7 @@ def enter_cave(sloth):
 def follow_river(sloth): 
     enemy = monster("Crocodile", 500)
     encounter_chance = 1                
-    print('You followed the footsteps to the river')
+    print("You followed the footsteps to the river")
     time_lapse(5, 15, encounter_chance, enemy, sloth) 
 
 # Used to generate a random fight encounter in the cave 
@@ -117,7 +119,7 @@ def engage_fight(enemy, sloth):
         if choice not in ["A", "B", "C"]:
             print("Input must be A, B, or C")
 
-        if choice == 'A':
+        if choice == "A":
             enemy.hp -= damage
             print("You deal", damage, "damage to the", enemy.name)
             damage_taken = enemy.damage

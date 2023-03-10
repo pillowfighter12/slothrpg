@@ -6,8 +6,7 @@ class monster:
         self.hp = hp
         self.damage = damage
 
-    def attack(self):
-        return random.randint(5, 15)
+#make attack more modular in the near future
 
     
 

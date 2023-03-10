@@ -15,15 +15,15 @@ class potion(item):
         if self.effect == "small_elixer":
             sloth.max_hp += 50
 
-class weapon:
+class weapon(item):
     def __init__(self, item, effect):
         self.item = item
         self.effect = effect
 
     def equip(self, sloth):
-        if self.equip == "small_torch":
+        if self.effect == "small_torch":
             sloth.damage = 50
-        if self.equip == "sloth_claws":
+        if self.effect == "sloth_claws":
             sloth.damage = 24
 
 class inventory:
@@ -40,9 +40,38 @@ class inventory:
             print("There are currently no potions in the inventory")
         else:
             print("List of potions:")
-        for p in potion_l:
-            print("- " + p.name)
+            for p in potion_l:
+                print("- " + p.name)
 
+    def inv_options(self, sloth):
+        while True:
+            print("What would you like to do? A: Access your inventory? B: Take some time to rest? C: Continue into the cave?")
+            input_choice = input()
+            if input_choice == "A":
+                print("Would you like to access your A. weapons or B. potions?")
+                inventory_choice = input()
+                if inventory_choice == "A":
+                    print("Not available at this time")
+                elif inventory_choice == "B":
+                    self.potion_list()
+            elif input_choice == "B":
+                print("You decided to lay next to a rock in a dangerous cave")
+                print("Luckily no monsters snuck up on you")
+                sloth.hp = sloth.maxhp
+                print("Your health is now back to " + str(sloth.maxhp))
+            elif input_choice == "B":
+                print("You decided to lay next to a rock in a dangerous cave")
+                print("Luckily no monsters snuck up on you")
+                sloth.hp = sloth.maxhp
+                print("Your health is now back to " + str(sloth.maxhp)) 
+
+            elif input_choice == "C":
+                print("You decided to go deeper into the cave")
+                break
+            else:
+                if input_choice not in ["A", "B", "C"]:
+                    print("Input must be A, B, or C")
+       
 
 
 potions = {

@@ -5,11 +5,7 @@ class mainsloth:
         self.hp = hp
         self.damage = damage
 
-        
-
-def create_sloth(name, maxhp, hp, damage):
-    sloth = mainsloth(name, maxhp, hp, damage)
-    return sloth
+    
 
     
 

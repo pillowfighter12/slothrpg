@@ -1,11 +1,11 @@
 import random
 import time
-from monsters import monster
-from sloth import mainsloth
-from inventory_potions_weapons import potion
-from inventory_potions_weapons import inventory
-from inventory_potions_weapons import potions
-from inventory_potions_weapons import weapon
+from monsters import *
+from sloth import *
+from inventory_potions_weapons import *
+from inventory_potions_weapons import *
+from inventory_potions_weapons import *
+from inventory_potions_weapons import *
 
 
 s_inventory = inventory()
@@ -40,10 +40,16 @@ def path_choice():
             print("Invalid input")
         else:
             return input_choice
+    
+
         
 def enter_cave(sloth):
+
+    enemy_counter = 0
+    enemy_index = None
+
     enemies = [{
-        "monster": monster("Cave Spider", 50, 15),
+        "monster": monster("Cave Spider",50, 15),
         "encounter_chance": 0.6,
         "pre_encounter_message": "The cave continues to get darker the deeper you go in",
         "time_lapse_min_value": 10,
@@ -52,48 +58,40 @@ def enter_cave(sloth):
     },
 
     {   
-        "monster": monster("Cave monkey", 75, 20),
+        "monster": monster("Cave monkey", 50, 20),
         "encounter_chance": 0.3,
         "pre_encounter_message": "The cave continues to get darker the deeper you go in",
         "time_lapse_min_value": 10,
         "time_lapse_max_value": 20,
         "after_encounter_message": "After defeating the cave spider you found a torch and some armor", 
     }]
-    enemy_counter = 0
+
+    enemy_index = cave_enemy_selection(enemies)
+    print(enemy_index)
+    
     print("The cave seemed to be emitting something from within.")
+
+    enemy = enemies[enemy_index]["monster"]
     enemy = enemies[enemy_counter]["monster"]
+    
     print(enemies[enemy_counter]["pre_encounter_message"])
     enemy_counter = time_lapse(enemies[enemy_counter]["time_lapse_min_value"], enemies[enemy_counter]["time_lapse_max_value"], enemies[enemy_counter]["encounter_chance"], enemy, sloth, enemy_counter)
     print("You have encountered " + str(enemy_counter) + " enemys")
     print(enemies[enemy_counter]["after_encounter_message"])
-
     s_inventory.inv_options(sloth)
 
-    # if enemy_counter == 1:
-    #     enemy = monster("Cave Spider", 50, 25)
-    #     encounter_chance = 0.6
-    #     print("The cave continues to get darker the deeper you go in")
-    #     enemy_counter = time_lapse(10, 20, encounter_chance, enemy, sloth, enemy_counter)
-    #     print("After fending off the second Cave Spider you found a small elixer of life!")
-    #     small_elixer = potions["small_elixer"]
-    #     s_inventory.add_item(small_elixer)
-    #     print("Small elixer was added to your inventory!")
 
-    # s_inventory.inv_options(sloth)
+    enemy_index = cave_enemy_selection(enemies)
 
-    # if enemy_counter == 2:
-    #     enemy = monster("Black Widow", 50 , 10)
-    #     encounter_chance = 1
-    #     print("You get to the end of the cave and a MASSIVE spider appears")
-    #     enemy_counter = time_lapse(10, 20, encounter_chance, enemy, sloth, enemy_counter)
-    #     print("You have encountered " + str(enemy_counter) + " enemys")
-    #     print(enemy_counter)
+    print(enemy_index)
 
-    # s_inventory.inv_options(sloth)
-
-#simple placeholder for where the current code ends
-    if enemy_counter == 3:
-        print("You have won the game")
+    print("The cave seemed to be emitting something from within.")
+    print(enemies[enemy_index]["pre_encounter_message"])
+    
+    enemy_counter = time_lapse(enemies[enemy_index]["time_lapse_min_value"], enemies[enemy_index]["time_lapse_max_value"], enemies[enemy_index]["encounter_chance"], enemies[enemy_index]["monster"], sloth, enemy_index)
+    print("You have encountered " + str(enemy_counter) + " enemys")
+    print(enemies[enemy_index]["after_encounter_message"])
+    s_inventory.inv_options(sloth)
 
 
 def follow_river(sloth): 
@@ -157,5 +155,28 @@ def engage_fight(enemy, sloth, enemy_counter):
                 
     return False
 
+    # if enemy_counter == 1:
+    #     enemy = monster("Cave Spider", 50, 25)
+    #     encounter_chance = 0.6
+    #     print("The cave continues to get darker the deeper you go in")
+    #     enemy_counter = time_lapse(10, 20, encounter_chance, enemy, sloth, enemy_counter)
+    #     print("After fending off the second Cave Spider you found a small elixer of life!")
+    #     small_elixer = potions["small_elixer"]
+    #     s_inventory.add_item(small_elixer)
+    #     print("Small elixer was added to your inventory!")
+
+    # s_inventory.inv_options(sloth)
+
+    # if enemy_counter == 2:
+    #     enemy = monster("Black Widow", 50 , 10)
+    #     encounter_chance = 1
+    #     print("You get to the end of the cave and a MASSIVE spider appears")
+    #     enemy_counter = time_lapse(10, 20, encounter_chance, enemy, sloth, enemy_counter)
+    #     print("You have encountered " + str(enemy_counter) + " enemys")
+    #     print(enemy_counter)
+
+    # s_inventory.inv_options(sloth)
+
+#simple placeholder for where the current code ends
 
 main()

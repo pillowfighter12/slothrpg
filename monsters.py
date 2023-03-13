@@ -8,6 +8,9 @@ class monster:
 
 #make attack more modular in the near future
 
-    
+
+def cave_enemy_selection(enemies):
+    enemy_index = random.randint(0, len(enemies) - 1)
+    return enemy_index
 
 

@@ -5,6 +5,8 @@ class mainsloth:
         self.hp = hp
         self.damage = damage
 
+
+skills = {}
     
 
     

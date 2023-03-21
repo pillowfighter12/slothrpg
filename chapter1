@@ -1,22 +1,17 @@
 import random
 import time
 import sys
-from monsters import *
-from sloth import *
-from inventory_potions_weapons import *
-from inventory_potions_weapons import *
-from inventory_potions_weapons import *
-from inventory_potions_weapons import *
-from fight_sequence import *
-
+from monsters import enemies, cave_enemy_selection
+from sloth import mainsloth 
+from inventory_potions_weapons import inventory
+from fight_sequence import fight_simulation
 
 s_inventory = inventory()
 
-
 def main():
-    #sloth name is global so that you can recall it many places without having to pass the variable .   
+    
     sloth_name = input("Enter your sloth name:")
-    sloth = mainsloth(name=sloth_name, maxhp=100, hp=100, damage=20)
+    sloth = mainsloth(sloth_name, "Nomad")
     print(f"Welcome {sloth_name}")
     welcome_message()
     path = path_choice()
@@ -49,126 +44,45 @@ def path_choice():
 def enter_cave(sloth):
     # Forced Enemy Encounter
     enemy_index = 0
-    enemy = enemies[enemy_index]["monster"]
     enemy_counter = 0
+    enemy = enemies[enemy_counter]["monster"]
 
     # Forced Enemy encounter block
-    print(enemies[enemy_counter]["pre_encounter_message"])
-    enemy_counter = time_lapse(
+
+    fight_sim = fight_simulation(enemy, sloth, enemy_index, enemy_counter)
+
+
+    enemy_counter = fight_sim.time_lapse(
         enemies[enemy_counter]["time_lapse_min_value"],
         enemies[enemy_counter]["time_lapse_max_value"],
         enemies[enemy_counter]["encounter_chance"],
-        enemy,
-        sloth,
-        enemy_counter,
     )
-    print(f"You have encountered {enemy_counter} enemies")
-    print(enemies[enemy_counter]["after_encounter_message"])
-
+    
     # Inventory Access
     s_inventory.inv_options(sloth)
 
     # Random Enemy encounters
-    for i in range(2):
-        # Function that selects a random enemy from the enemies dictionary
+    while cave_chest is not True:
+        cave_chest = False
         enemy_index = cave_enemy_selection(enemies)
         enemy = enemies[enemy_index]["monster"]
+        fight_sim = fight_simulation(enemy, sloth, enemy_index, enemy_counter)
+
+        print(f"The chance of escaping was {enemies[enemy_index]['run_chance']}")
 
         # Enemy encounter block
-        print("The cave seemed to be emitting something from within.")
-        print(enemies[enemy_index]["pre_encounter_message"])
-        enemy_counter = time_lapse(
+        enemy_counter = fight_sim.time_lapse(
             enemies[enemy_index]["time_lapse_min_value"],
             enemies[enemy_index]["time_lapse_max_value"],
             enemies[enemy_index]["encounter_chance"],
-            enemy,
-            sloth,
-            enemy_counter,
         )
+
         print(f"You have encountered {enemy_counter} enemies")
         print(enemies[enemy_index]["after_encounter_message"])
 
         # Inventory Access
         s_inventory.inv_options(sloth)
 
-
-
-# Used to generate a random fight encounter in the cave 
-
-def time_lapse(min_time, max_time, encounter_chance, enemy, sloth, enemy_counter,):
-    for i in range(random.randint(min_time, max_time)):
-        print(" . . . ")
-        time.sleep(1)
-        chance = random.random()
-        if chance <= encounter_chance or not enemy:
-            print("You didn't encounter any enemies")
-            continue
-        print("A", enemy.name, "approaches!")
-        enemy_counter += 1
-        engage_fight(enemy, sloth, enemy_counter)
-        print(enemy_counter)
-        return enemy_counter
     
-
-
-
-
-        
-
-
-
-    # damage = sloth.damage
-    # damage_taken = enemy.damage
-    # while sloth.hp > 0 and enemy.hp > 0:
-    #     print("What would you like to do? ")
-
-    #     choice = input()
-    #     if choice not in ["A", "B"]:
-    #         print("Input must be A or B")
-
-    #     if choice == "A":
-    #         enemy.hp -= damage
-    #         print("You deal", damage, "damage to the", enemy.name)
-    #         damage_taken = enemy.damage
-    #         sloth.hp -= damage_taken
-    #         print("You have taken", damage_taken, " damage to the face")
-    #         print(sloth.name, sloth.hp)
-    #         print(str(enemy.name) + " " + str(enemy.hp))
-    #         if enemy.hp <= 0 and sloth.hp > 0:
-    #             print("You defeated the " + enemy.name)
-    #             print("******************")
-    #             return True
-    #         elif enemy.hp > 0 and sloth.hp <= 0:
-    #             print(sloth.name + " has fainted and you must go back to the start")
-    #             main()
-    #             return True
-            
-    #         elif sloth.hp <= 0 and enemy.hp <= 0:
-    #             print("You have both fainted and you must go back to the start!")
-    #             main()
-    #             return True
-    #     if choice == "B":
-    #         print("Attempting to run away...")
-    #         chance = random.random()
-    #         if chance <= enemies[enemy_index]["run_chance"]:
-    #             print("You have successfully ran away")
-    #             return False
-    #         else:
-    #             enemy.hp -= damage
-    #             print("You deal", damage, "damage to the", enemy.name)
-    #             damage_taken = enemy.damage
-    #             sloth.hp -= damage_taken
-    #             print("You have taken", damage_taken, " damage to the face")
-    #             print(sloth.name, sloth.hp)
-    #             print(str(enemy.name) + " " + str(enemy.hp))
-    #             if enemy.hp <= 0 and sloth.hp > 0:
-    #                 print("You defeated the " + enemy.name)
-    #                 print("******************")
-    #                 return True
-    #             elif enemy.hp > 0 and sloth.hp <= 0:
-    #                 print(sloth.name + " has fainted and you must go back to the start")
-    #                 main()
-    #                 return True
-                
 
 main()

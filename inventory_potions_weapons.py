@@ -1,3 +1,6 @@
+import random
+
+
 class item:
     def __init__(self, name):
         self.name = name
@@ -14,6 +17,7 @@ class potion(item):
             sloth.heal(100)
         if self.effect == "small_elixer":
             sloth.max_hp += 50
+
 
 class weapon(item):
     def __init__(self, item, effect):
@@ -72,13 +76,23 @@ class inventory:
                 if input_choice not in ["A", "B", "C"]:
                     print("Input must be A, B, or C")
        
+    def drop_item(enemy):
+        if random.random() <= enemy["item_drop_chance"]:
+            # Select a random potion key based on occurrence chances
+            potion_key = random.choices(list(potions.keys()), weights=[potion.occurence_chance for potion in potions.values()],k=1)[0]
+
+            # Add the dropped item to the inventory
+            s_inventory.add_item(potions[item_key])
+            print(f"{enemy.name} dropped a {potions[potion_key].name}!")
 
 
 potions = {
-    "small_potion": potion("small potion", "small_potion"),
-    "medium_potion": potion("medium potion", "medium_potion"),
-    "small_elixer": potion("small elixer of life", "small_elixer"),
+    "small_potion": potion("small potion", "small_potion",),
+    "medium_potion": potion("medium potion", "medium_potion",),
+    "small_elixer": potion("small elixer of life", "small_elixer")
 }
+
+
 
 weapons = {
     "small_torch": weapon("torch", "small_torch"),

@@ -6,39 +6,20 @@ class monster:
         self.hp = hp
         self.damage = damage
 
+
+    
+    def takeDamage(self, damage):
+        self.hp = self.hp - damage
+
 #make attack more modular in the near future
+
+
 
 
 def cave_enemy_selection(enemies):
     enemy_index = random.randint(0, len(enemies) - 1)
+    print(f"The length of enemies is {len(enemies)}")
     return enemy_index
-
-def attack_enemy(enemy, sloth, enemy_counter):
-    damage_given = sloth.damage
-    enemy.hp -= damage_given
-    print(f"You attack the {enemy.name} for {damage_given} damage!")
-    return check_fight_status(enemy, sloth, enemy_counter)
-
-
-def run_away(enemy, sloth, enemy_counter):
-    chance = random.random()
-    if chance <= enemies[enemy_index]["run_chance"]:
-        print("You successfully ran away from the fight")
-        return True
-    else:
-        print("You failed to run away and the fight continues")
-        return False
-    
-def check_fight_status(enemy, sloth, enemy_counter):
-    if enemy.hp <= 0 and sloth.hp >= 0:
-        print(f"You defeated the {enemy.name}!")
-        return True
-    elif enemy.hp >= 0 and sloth.hp <= 0:
-        print(f"{sloth.name} has fainted and you must go back to the start")
-        main()
-        return True
-    else:
-        return False
 
 enemies = [{
         "monster": monster("Cave Spider",hp=50, damage=15),
@@ -46,9 +27,10 @@ enemies = [{
         "pre_encounter_message": "The cave continues to get darker the deeper you go in",
         "time_lapse_min_value": 10,
         "time_lapse_max_value": 20,
-        "after_encounter_message": "After defeating the cave spider you found a torch and some armor",
+        "after_encounter_message": "You have successfully defeated the Cave Spider",
         "possible_location": "cave_entrance",
-        "run_chance": .9
+        "run_chance": .9,
+        "item_drop_chance":0.2
     },
 
     {   
@@ -57,9 +39,11 @@ enemies = [{
         "pre_encounter_message": "The cave continues to get darker the deeper you go in",
         "time_lapse_min_value": 10,
         "time_lapse_max_value": 20,
-        "after_encounter_message": "After defeating the cave monkey you found a torch and some armor", 
+        "after_encounter_message": "You have successfully defeated the Cave Monkey!", 
         "possible_location": "cave_entrance",
-        "run_chance": .7 
+        "run_chance": .7,
+        "item_drop_chance":0.3
+
     },
     
     {
@@ -68,7 +52,9 @@ enemies = [{
         "pre_encounter_message": "The cave continues to get darker the deeper you go in",
         "time_lapse_min_value": 3,
         "time_lapse_max_value": 6,
-        "after_encounter_message": "After defeating the cave troll you found a torch and some armor",
+        "after_encounter_message": "You have successfully defeated the Cave Troll!",
         "possible_location": "cave_entrance",
-        "run_chance": .2
+        "run_chance": .2,
+        "item_drop_chance":0.8
+
     }]

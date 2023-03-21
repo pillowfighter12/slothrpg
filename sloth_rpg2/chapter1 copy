@@ -1,0 +1,88 @@
+import random
+import time
+from monsters import monster
+from characters import create_character
+
+
+
+def main():
+    player_name = input("Enter your character name:")
+    player = create_character(player_name)
+    print("Welcome " + player_name)
+    welcome_message()
+    path = path_choice()
+    if path == 'A':
+        enter_cave(player)
+    elif path == 'B':
+        follow_river(player)
+
+
+
+
+def path_choice():
+    while True:
+        input_choice = input()
+        if input_choice not in ['A', 'B']:
+            print("Invalid input")
+        else:
+            return input_choice
+        
+def enter_cave(player):
+    enemy = monster("Cave Spider", 25)
+    boss = monster("Goat Spider", 400)
+    encounter_chance = 0.2
+    print('The cave seemed to be emitting something from within. You choose to follow inside')
+    time_lapse(10, 20, encounter_chance, enemy, player)
+
+def follow_river(player): 
+    enemy = monster("Crocodile", 500)
+    encounter_chance = 1                
+    print('You followed the footsteps to the river')
+    time_lapse(5, 15, encounter_chance, enemy, player) 
+
+# Used to generate a random fight encounter in the cave
+
+def time_lapse(min_time, max_time, encounter_chance, enemy, player):
+
+    for i in range(random.randint(min_time, max_time)):
+        print(" . . . ")
+        time.sleep(1)
+        chance = random.random()
+        print(chance)
+        if chance < encounter_chance and enemy:
+            print("A", enemy.name, "approaches!")
+            if engage_fight(enemy, player):
+                enemy = None
+                return
+    print("You didn't encounter any enemies")
+
+
+
+def engage_fight(enemy, player):
+    print("You have encountered a", enemy.name)
+
+    while player.hitpoints > 0 and enemy.hitpoints > 0:
+        print("What would you like to do? ")
+
+        choice = input()
+        if choice not in ['A', 'B']:
+            print("Input must be A or B")
+        elif choice == 'A':
+            damage = player.attack_with_claws()
+            enemy.hitpoints -= damage
+            print("You deal", damage, "damage to the", enemy.name)
+            damage_taken = enemy.attack()
+            player.hitpoints -= damage_taken
+            print("You have taken", damage_taken, " damage to the face")
+            print(player.name, player.hitpoints)
+            print(str(enemy.name) + " " + str(enemy.hitpoints))
+            if enemy.hitpoints <= 0:
+                print("You defeated the " + enemy.name)
+                return True
+            if player.hitpoints <= 0:
+                print(player.name + " has fainted")
+                return True
+    return False
+
+
+main()

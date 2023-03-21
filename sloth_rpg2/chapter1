@@ -1,0 +1,99 @@
+import sys
+import random
+import time
+from monsters import monster
+from characters import create_character
+
+
+def main():
+    player_name = input("Enter your character name:")
+    player = create_character(player_name)
+    print("Welcome " + player_name)
+    welcome_message()
+    path = path_choice()
+    if path == 'A':
+        enter_cave(player)
+    elif path == 'B':
+        follow_river(player)
+
+def welcome_message():
+    print('You startle as you awaken on the ground with a broken branch next to you.')
+    print('As you cumbersously investigate your surroundings you come across some foot prints and begin to follow.')
+    print('Eventually you come across two pathes.')
+    print('What path should you follow?')
+    print("\u0332".join('Type A:') + (' To follow the path going towards the cave.'))
+    print("\u0332".join('Type B:') + (' To follow the path that follows the river.'))
+
+
+def path_choice():
+    while True:
+        input_choice = input()
+        if input_choice not in ['A', 'B']:
+            print("Invalid input")
+        else:
+            return input_choice
+        
+# Placeholder for future engagements from within the cave story - going to consider a way to add boss battle within this code. 
+def enter_cave(player):
+    enemy = monster("Cave Spider", 25)
+    encounter_chance = 0.5
+    print('The cave seemed to be emitting something from within. You choose to follow inside')
+    time_lapse(10, 20, encounter_chance, enemy, player)
+
+def follow_river(player): 
+    enemy = monster("Crocodile", 500)
+    encounter_chance = 1                
+    print('You followed the footsteps to the river')
+    time_lapse(5, 15, encounter_chance, enemy, player) 
+
+# Used to generate a random fight encounter in the cave
+
+def time_lapse(min_time, max_time, encounter_chance, enemy, player):
+
+#random.random() creates a float between 0 and 1 and if it isnt lower than encounter chance there will be no enemy.
+    for i in range(random.randint(min_time, max_time)):
+        print(" . . . ")
+        time.sleep(1)
+        chance = random.random()
+        print(chance)
+        if chance < encounter_chance:
+            print("A", enemy.name, "approaches!")
+            if engage_fight(enemy, player):
+                enemy = None
+                return
+    print("You didn't encounter any enemies")
+
+
+
+def engage_fight(enemy, player):
+    print("You have encountered a", enemy.name)
+
+    while player.hitpoints > 0 and enemy.hitpoints > 0:
+        print("What would you like to do? ")
+
+        choice = input()
+        if choice not in ['A', 'B']:
+            print("Input must be A or B")
+        elif choice == 'A':
+            damage = player.attack_with_claws()
+            enemy.hitpoints -= damage
+            print("You deal", damage, "damage to the", enemy.name)
+            damage_taken = enemy.attack()
+            player.hitpoints -= damage_taken
+            print("You have taken", damage_taken, " damage to the face")
+            print(player.name, player.hitpoints)
+            print(str(enemy.name) + " " + str(enemy.hitpoints))
+            if enemy.hitpoints <= 0:
+                print("You defeated the " + enemy.name)
+                return True
+            if player.hitpoints <= 0:
+                print(player.name + " has fainted")
+                return True
+        elif choice == 'B':
+            print("You ran away!")
+            return True
+        
+    return False
+
+
+main()

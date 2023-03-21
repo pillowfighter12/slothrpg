@@ -1,0 +1,97 @@
+import sys  
+# sys.path.append('..') # Add the parent directory to the Python path
+
+import random
+from monsters import monster
+
+from characters import maincharacter # Import the Character class from Characters.py
+
+def chapfirst():
+    inputcf1 = None
+    print('You startle as you awaken on the ground with a broken branch next to you.')
+    print('As you cumbersously investigate your surroundings you come across some foot prints and begin to follow.')
+    print('Eventually you come across two pathes.')
+    print('What path should you follow?')
+    print("\u0332".join('Type A:') + (' To follow the path going towards the cave.'))
+    print("\u0332".join('Type B:') + (' To follow the path that follows the river.'))
+    
+    # While loop to make sure an input is properly made
+    while inputcf1 not in ['A', 'B']:
+        inputcf1 = input()
+
+        if inputcf1 not in ['A','B']:
+            print("Invalid input")
+        
+
+    if inputcf1 == 'A':
+        print('The cave seemed to be emminating something from within.')
+        print('Soon after you enter the cave a giant spider appears')
+
+    if inputcf1 == 'B':
+        print('The cave seemed to be emminating something from within.')
+        print('Soon after yo u enter the cave a giant spider appears')
+
+    return inputcf1
+
+def time_lapse(encounter_cave):
+    lapse = random.randint(3,10)
+    for i in range(lapse):
+        if not encounter_cave or i !=3:
+            print(". . . .", end='')
+        else:
+            print("A", enemy, "approaches!")
+            if engagement_fight():
+                break
+
+        time.sleep(1)
+    print()
+
+def encounter_cave():
+    encounter_chance = 0.9
+
+    if random.random() < encounter_chance:
+        print("A wild monster appears!")
+        time_lapse(True)
+        
+    else:
+        time_lapse(False)
+
+def engagement_fight():
+
+    sloth_name = input("Enter your character name: ")
+    sloth = maincharacter(sloth_name, 100)
+    print("welcome " + sloth_name)
+
+    enemy = monster("Cave Spider", 25)
+
+    print("You have encountered a Cave Spider")
+
+    while sloth.hitpoints > 0 and enemy.monsterhp > 0:
+        print("What would you like to do? ")
+    
+        inputas1 = input()
+        
+        if inputas1 not in ['A', 'B']:
+            print("Input must be A, B")
+
+        elif inputas1 == 'A':
+            damage = sloth.claws()
+            enemy.monsterhp -= damage
+            dtaken = enemy.damagetaken()
+            sloth.hitpoints -= dtaken
+
+            print("You have taken " + str(dtaken) + " damage!")
+
+            if enemy.monsterhp <= 0:
+                print("Cave Spider has succumbed to your claws!")
+                return True
+                
+        elif inputas1 == 'B':
+            print("You slowly jotted out of the cave!")
+            sys.exit()
+
+
+chapfirst()
+engagement_fight()         
+
+

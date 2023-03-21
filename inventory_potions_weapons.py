@@ -18,7 +18,7 @@ class potion(item):
         if self.effect == "small_elixer":
             sloth.max_hp += 50
 
-
+            
 class weapon(item):
     def __init__(self, item, effect):
         self.item = item
@@ -47,9 +47,21 @@ class inventory:
             for p in potion_l:
                 print("- " + p.name)
 
+    def drop_potion(enemy):
+        if random.random() <= enemy["item_drop_chance"]:
+            # Select a random potion key based on occurrence chances
+            potion_key = random.choices(list(potions.keys()), weights=[potion.occurence_chance for potion in potions.values()],k=1)[0]
+
+            # Add the dropped item to the inventory
+            s_inventory.add_item(potions[item_key])
+            print(f"{enemy.name} dropped a {potions[potion_key].name}!")
+
     def inv_options(self, sloth):
         while True:
-            print("What would you like to do? A: Access your inventory? B: Take some time to rest? C: Continue into the cave?")
+            print(f"Your current hp is {sloth.hp}")
+            print("""-----------------------------------------------------------------------------------------------------------
+What would you like to do? A: Access your inventory? B: Take some time to rest? C: Continue into the cave?
+-----------------------------------------------------------------------------------------------------------""")
             input_choice = input()
             if input_choice == "A":
                 print("Would you like to access your A. weapons or B. potions?")
@@ -76,14 +88,7 @@ class inventory:
                 if input_choice not in ["A", "B", "C"]:
                     print("Input must be A, B, or C")
        
-    def drop_item(enemy):
-        if random.random() <= enemy["item_drop_chance"]:
-            # Select a random potion key based on occurrence chances
-            potion_key = random.choices(list(potions.keys()), weights=[potion.occurence_chance for potion in potions.values()],k=1)[0]
 
-            # Add the dropped item to the inventory
-            s_inventory.add_item(potions[item_key])
-            print(f"{enemy.name} dropped a {potions[potion_key].name}!")
 
 
 potions = {

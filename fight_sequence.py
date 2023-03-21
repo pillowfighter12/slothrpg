@@ -20,8 +20,9 @@ class fight_simulation:
         }
 
         while not self.fight_over:
-            print("""A: to attack
-B: to run!""")
+            print("""-----------------------
+A: to attack B: to run!
+-----------------------""")
             choice = input().upper()
 
             if choice not in actions:
@@ -48,8 +49,9 @@ B: to run!""")
                 self.sloth.hp -= self.enemy.damage
 
                 print(f"""You have taken {self.enemy.damage} damage to the face"
-    {self.sloth.name} has  {self.sloth.hp} health remaining
-    {self.enemy.name} has  {self.enemy.hp} health remaining""")
+-------------------------------------------------------                
+{self.sloth.name} has  {self.sloth.hp} health remaining
+{self.enemy.name} has  {self.enemy.hp} health remaining""")
 
         self.fight_over = False
 

@@ -31,7 +31,6 @@ What would you like to do?
 {type_a} +   To follow the path going towards the cave.
 {type_b} +   To go back to sleep""")
 
-
 def path_choice():
     while True:
         input_choice = input()
@@ -42,6 +41,8 @@ def path_choice():
     
 
 def enter_cave(sloth):
+
+    cave_chest = False
     # Forced Enemy Encounter
     enemy_index = 0
     enemy_counter = 0
@@ -63,19 +64,17 @@ def enter_cave(sloth):
 
     # Random Enemy encounters
     while cave_chest is not True:
-        cave_chest = False
         enemy_index = cave_enemy_selection(enemies)
         enemy = enemies[enemy_index]["monster"]
         fight_sim = fight_simulation(enemy, sloth, enemy_index, enemy_counter)
 
-        print(f"The chance of escaping was {enemies[enemy_index]['run_chance']}")
-
         # Enemy encounter block
-        enemy_counter = fight_sim.time_lapse(
+        enemy_index = fight_sim.time_lapse(
             enemies[enemy_index]["time_lapse_min_value"],
             enemies[enemy_index]["time_lapse_max_value"],
             enemies[enemy_index]["encounter_chance"],
         )
+
 
         print(f"You have encountered {enemy_counter} enemies")
         print(enemies[enemy_index]["after_encounter_message"])

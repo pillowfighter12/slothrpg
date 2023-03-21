@@ -18,7 +18,6 @@ class monster:
 
 def cave_enemy_selection(enemies):
     enemy_index = random.randint(0, len(enemies) - 1)
-    print(f"The length of enemies is {len(enemies)}")
     return enemy_index
 
 enemies = [{
@@ -30,11 +29,11 @@ enemies = [{
         "after_encounter_message": "You have successfully defeated the Cave Spider",
         "possible_location": "cave_entrance",
         "run_chance": .9,
-        "item_drop_chance":0.2
+        "drop_potion_chance":0.2
     },
 
     {   
-        "monster": monster("Cave Monkey", 50, 20),
+        "monster": monster("Cave Monkey", hp=50, damage=20),
         "encounter_chance": 0.7,
         "pre_encounter_message": "The cave continues to get darker the deeper you go in",
         "time_lapse_min_value": 10,
@@ -42,7 +41,7 @@ enemies = [{
         "after_encounter_message": "You have successfully defeated the Cave Monkey!", 
         "possible_location": "cave_entrance",
         "run_chance": .7,
-        "item_drop_chance":0.3
+        "drop_potion_chance":0.3
 
     },
     
@@ -55,6 +54,6 @@ enemies = [{
         "after_encounter_message": "You have successfully defeated the Cave Troll!",
         "possible_location": "cave_entrance",
         "run_chance": .2,
-        "item_drop_chance":0.8
+        "drop_potion_chance":0.8
 
     }]

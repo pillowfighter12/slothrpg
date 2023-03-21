@@ -3,19 +3,19 @@ import copy
 
 
 class Monster:
-    def __init__(self, name, hp, damage, drop_potion_chance):
+    def __init__(self, name, hp, damage):
         self._name = name
         self._hp = hp
         self._damage = damage
-        self._drop_potion_chance = drop_potion_chance
+        #self._drop_potion_chance = drop_potion_chance
 
     
-    @property
-    def drop_potion_chance(self):
-        return self._drop_potion_chance
+    # @property
+    # def drop_potion_chance(self):
+    #     return self._drop_potion_chance
 
 enemies = [{
-        "monster": Monster("Cave Spider",hp=50, damage=15, drop_potion_chance=0.05),
+        "monster": Monster("Cave Spider",hp=50, damage=15),
         "encounter_chance": 0.47,
         "pre_encounter_message": "The cave continues to get darker the deeper you go in",
         "time_lapse_min_value": 10,
@@ -27,7 +27,7 @@ enemies = [{
     },
 
     {   
-        "monster": Monster("Cave Monkey", hp=60, damage=20, drop_potion_chance=0.09),
+        "monster": Monster("Cave Monkey", hp=60, damage=20),
         "encounter_chance": 0.7,
         "pre_encounter_message": "The cave continues to get darker the deeper you go in",
         "time_lapse_min_value": 10,
@@ -40,7 +40,7 @@ enemies = [{
     },
     
     {
-        "monster": Monster("Cave Troll", hp=70, damage=23, drop_potion_chance=0.12),
+        "monster": Monster("Cave Troll", hp=70, damage=23),
         "encounter_chance": 0.10,
         "pre_encounter_message": "The cave continues to get darker the deeper you go in",
         "time_lapse_min_value": 3,

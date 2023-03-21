@@ -1,12 +1,8 @@
-import random
-import time
 import sys
-from monsters import enemies, cave_enemy_selection
+from monsters import MonsterManager, enemies_copy
 from sloth import mainsloth 
 from inventory_potions_weapons import inventory
-from fight_sequence import fight_simulation
-
-s_inventory = inventory()
+from fight_sequence_random import fight_simulation
 
 def main():
     
@@ -16,6 +12,7 @@ def main():
     welcome_message()
     path = path_choice()
     if path == "A":
+        sloth._inventory = inventory()
         enter_cave(sloth)
     else: 
         sys.exit()
@@ -41,47 +38,37 @@ def path_choice():
     
 
 def enter_cave(sloth):
-
     cave_chest = False
-    # Forced Enemy Encounter
-    enemy_index = 0
+    
+    monster_selection = MonsterManager(enemies_copy)  # use the copy of the enemies list
     enemy_counter = 0
-    enemy = enemies[enemy_counter]["monster"]
-
-    # Forced Enemy encounter block
+    enemy_index = monster_selection.cave_enemy_selection()
+    enemy = monster_selection._enemies[enemy_index]["monster"]
 
     fight_sim = fight_simulation(enemy, sloth, enemy_index, enemy_counter)
 
-
     enemy_counter = fight_sim.time_lapse(
-        enemies[enemy_counter]["time_lapse_min_value"],
-        enemies[enemy_counter]["time_lapse_max_value"],
-        enemies[enemy_counter]["encounter_chance"],
+        monster_selection._enemies[enemy_index]["time_lapse_min_value"],
+        monster_selection._enemies[enemy_index]["time_lapse_max_value"],
+        monster_selection._enemies[enemy_index]["encounter_chance"],
     )
-    
-    # Inventory Access
-    s_inventory.inv_options(sloth)
 
-    # Random Enemy encounters
+    sloth._inventory.inv_options(sloth)
+
     while cave_chest is not True:
-        enemy_index = cave_enemy_selection(enemies)
-        enemy = enemies[enemy_index]["monster"]
+        enemy_index = monster_selection.cave_enemy_selection()
+        enemy = monster_selection._enemies[enemy_index]["monster"]
         fight_sim = fight_simulation(enemy, sloth, enemy_index, enemy_counter)
 
-        # Enemy encounter block
-        enemy_index = fight_sim.time_lapse(
-            enemies[enemy_index]["time_lapse_min_value"],
-            enemies[enemy_index]["time_lapse_max_value"],
-            enemies[enemy_index]["encounter_chance"],
+        enemy_counter = fight_sim.time_lapse(
+            monster_selection._enemies[enemy_index]["time_lapse_min_value"],
+            monster_selection._enemies[enemy_index]["time_lapse_max_value"],
+            monster_selection._enemies[enemy_index]["encounter_chance"],
+            monster_selection._enemies[enemy_index]["after_encounter_message"]
         )
 
-
         print(f"You have encountered {enemy_counter} enemies")
-        print(enemies[enemy_index]["after_encounter_message"])
+        sloth._inventory.inv_options(sloth)
 
-        # Inventory Access
-        s_inventory.inv_options(sloth)
-
-    
 
 main()

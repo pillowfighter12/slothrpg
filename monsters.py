@@ -1,21 +1,23 @@
 import random
 import copy
+from inventory_potions_weapons import potions, inventory
 
 
 class Monster:
-    def __init__(self, name, hp, damage):
+    def __init__(self, name, hp, damage, drop_potion_chance):
         self._name = name
         self._hp = hp
         self._damage = damage
-        #self._drop_potion_chance = drop_potion_chance
+        self._drop_potion_chance = drop_potion_chance
 
+    def drop_potion(self):
+        if random.random() <= self._drop_potion_chance:
+            potion = inventory.getRandomPotion()
+            print(f"{self._name} dropped a {potion._name}!")
+            return potion
     
-    # @property
-    # def drop_potion_chance(self):
-    #     return self._drop_potion_chance
-
 enemies = [{
-        "monster": Monster("Cave Spider",hp=50, damage=15),
+        "monster": Monster("Cave Spider",hp=50, damage=15, drop_potion_chance=0.9),
         "encounter_chance": 0.47,
         "pre_encounter_message": "The cave continues to get darker the deeper you go in",
         "time_lapse_min_value": 10,
@@ -23,11 +25,10 @@ enemies = [{
         "after_encounter_message": "You have successfully defeated the Cave Spider",
         "possible_location": "cave_entrance",
         "run_chance": .9,
-        "drop_potion_chance":0.2
     },
 
     {   
-        "monster": Monster("Cave Monkey", hp=60, damage=20),
+        "monster": Monster("Cave Monkey", hp=60, damage=20, drop_potion_chance=0.9),
         "encounter_chance": 0.7,
         "pre_encounter_message": "The cave continues to get darker the deeper you go in",
         "time_lapse_min_value": 10,
@@ -35,12 +36,10 @@ enemies = [{
         "after_encounter_message": "You have successfully defeated the Cave Monkey!", 
         "possible_location": "cave_entrance",
         "run_chance": .7,
-        "drop_potion_chance":0.3
-
     },
     
     {
-        "monster": Monster("Cave Troll", hp=70, damage=23),
+        "monster": Monster("Cave Troll", hp=70, damage=23, drop_potion_chance=0.9),
         "encounter_chance": 0.10,
         "pre_encounter_message": "The cave continues to get darker the deeper you go in",
         "time_lapse_min_value": 3,
@@ -48,8 +47,6 @@ enemies = [{
         "after_encounter_message": "You have successfully defeated the Cave Troll!",
         "possible_location": "cave_entrance",
         "run_chance": .2,
-        "drop_potion_chance":0.8
-
     }]
 
 
@@ -76,5 +73,6 @@ class MonsterManager:
         enemy_index = random.randint(0, len(self._enemies) - 1)
         self._enemies = copy.deepcopy(self._enemies_copy)
         return enemy_index
+
 
 

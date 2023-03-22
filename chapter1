@@ -1,5 +1,5 @@
 import sys
-from monsters import MonsterManager, enemies_copy
+from monsters import enemies_copy, MonsterManager
 from sloth import mainsloth 
 from inventory_potions_weapons import inventory
 from fight_sequence_random import fight_simulation
@@ -12,7 +12,6 @@ def main():
     welcome_message()
     path = path_choice()
     if path == "A":
-        sloth._inventory = inventory()
         enter_cave(sloth)
     else: 
         sys.exit()
@@ -53,8 +52,6 @@ def enter_cave(sloth):
         monster_selection._enemies[enemy_index]["encounter_chance"],
     )
 
-    sloth._inventory.inv_options(sloth)
-
     while cave_chest is not True:
         enemy_index = monster_selection.cave_enemy_selection()
         enemy = monster_selection._enemies[enemy_index]["monster"]
@@ -64,11 +61,12 @@ def enter_cave(sloth):
             monster_selection._enemies[enemy_index]["time_lapse_min_value"],
             monster_selection._enemies[enemy_index]["time_lapse_max_value"],
             monster_selection._enemies[enemy_index]["encounter_chance"],
-            monster_selection._enemies[enemy_index]["after_encounter_message"]
         )
 
         print(f"You have encountered {enemy_counter} enemies")
         sloth._inventory.inv_options(sloth)
+
+
 
 
 main()

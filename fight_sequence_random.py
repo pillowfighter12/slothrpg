@@ -1,6 +1,7 @@
 import random
 from monsters import enemies
 from inventory_potions_weapons import inventory
+from sloth import mainsloth
 
 import time
 
@@ -38,7 +39,9 @@ A: to attack B: to run!
                 self._fight_over = result
             # Enemy defeated
             if self._enemy._hp <= 0 and self._sloth._hp >= 0:
-                print(f"You defeated the {self._enemy._name}") 
+                print(f"You defeated the {self._enemy._name}")
+                print(enemies[self._enemy_index]["after_encounter_message"])
+                self._sloth._inventory.add_item(self._enemy.drop_potion())
                 self._fight_over = True
             # Enemy Victory
             if self._enemy._hp >= 0 and self._sloth._hp <= 0:
@@ -49,15 +52,15 @@ A: to attack B: to run!
             # Sloth takes damage
             if not self._fight_over:
                 self._sloth._hp -= self._enemy._damage
-
                 print(f"""You have taken {self._enemy._damage} damage to the face"
 -------------------------------------------------------                
 {self._sloth._name} has  {self._sloth._hp} health remaining
 {self._enemy._name} has  {self._enemy._hp} health remaining""")
+                #self._sloth._inventory.inv_options(self._sloth)
 
         self._fight_over = False
 
-    def time_lapse(self, min_time, max_time, encounter_chance, *kwargs ):
+    def time_lapse(self, min_time, max_time, encounter_chance):
         print(enemies[self._enemy_index]["pre_encounter_message"])
         for i in range(random.randint(min_time, max_time)):
             enemy_search = True
@@ -91,6 +94,8 @@ A: to attack B: to run!
             print("You couldn't escape!")
             print(f"The chance of escaping was {enemies[self._enemy_index]['run_chance']}")
             return False
+        
+    
 
 
     

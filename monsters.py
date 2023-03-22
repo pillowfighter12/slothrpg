@@ -1,6 +1,6 @@
 import random
 import copy
-from inventory_potions_weapons import potions, inventory
+from inventory_potions_weapons import inventory
 
 
 class Monster:

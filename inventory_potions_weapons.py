@@ -54,23 +54,11 @@ class inventory:
             for p in name_to_quantity:
                 print(p, name_to_quantity[p])
                 
-
-
-                        
-                
+    #static because we dont need any information related to the class itself and we dont want to create another instance of inventory     
     @staticmethod
     def getRandomPotion():
         potion_key = random.choices(list(potions.keys()), weights=[potion._occurence_chance for potion in potions.values()],k=1)[0]
         return potions[potion_key]
-
-        # def drop_potion(self, enemy):
-        #     if random.random() <= enemy["item_drop_chance"]:
-        #         # Select a random potion key based on occurrence chances
-        #         potion_key = random.choices(list(potions.keys()), weights=[potion.occurence_chance for potion in potions.values()],k=1)[0]
-
-        #         # Add the dropped item to the inventory
-        #         self.add_item(potions[potion_key])
-        #         print(f"{enemy._name} dropped a {potions[potion_key].name}!")
 
     def inv_options(self, sloth):
         while True:

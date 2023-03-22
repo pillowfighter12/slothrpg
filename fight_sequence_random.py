@@ -1,7 +1,6 @@
 import random
 from monsters import enemies
-from inventory_potions_weapons import inventory
-from sloth import mainsloth
+
 
 import time
 

@@ -1,7 +1,6 @@
 import sys
 from monsters import enemies_copy, MonsterManager
 from sloth import mainsloth 
-from inventory_potions_weapons import inventory
 from fight_sequence_random import fight_simulation
 
 def main():

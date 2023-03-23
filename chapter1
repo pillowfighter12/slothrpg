@@ -5,9 +5,14 @@ from fight_sequence_random import fight_simulation
 
 def main():
     
-    sloth_name = input("Enter your sloth name:")
+    sloth_name = input("""Enter your sloth name:
+""")
+    
     sloth = mainsloth(sloth_name, "Nomad")
-    print(f"Welcome {sloth_name}")
+    print(f"""
+
+Welcome {sloth_name}
+""")
     welcome_message()
     path = path_choice()
     if path == "A":
@@ -19,12 +24,23 @@ def main():
 def welcome_message():
     type_a = "\u0332".join("Type A:")
     type_b = "\u0332".join("Type B:")
-    print(f"""You startle as you awaken on the ground with a broken branch next to you.
+    print(f"""
+_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+    
+You startle as you awaken on the ground with a broken branch next to you.
 As you cumbersously investigate your surroundings you come across some foot prints and begin to follow.
+
 Eventually you come across two pathes.
-What would you like to do?
-{type_a} +   To follow the path going towards the cave.
-{type_b} +   To go back to sleep""")
+
+-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
+
+>>> What would you like to do? <<<
+
+Type A: To follow the path going towards the cave.
+Type B: To go back to sleep
+
+""")
+
 
 def path_choice():
     while True:
@@ -36,22 +52,23 @@ def path_choice():
     
 
 def enter_cave(sloth):
-    cave_chest = False
+    # cave_chest = False
     
     monster_selection = MonsterManager(enemies_copy)  # use the copy of the enemies list
     enemy_counter = 0
-    enemy_index = monster_selection.cave_enemy_selection()
-    enemy = monster_selection._enemies[enemy_index]["monster"]
+    # enemy_index = monster_selection.cave_enemy_selection()
+    # enemy = monster_selection._enemies[enemy_index]["monster"]
 
-    fight_sim = fight_simulation(enemy, sloth, enemy_index, enemy_counter)
+    # fight_sim = fight_simulation(enemy, sloth, enemy_index, enemy_counter)
 
-    enemy_counter = fight_sim.time_lapse(
-        monster_selection._enemies[enemy_index]["time_lapse_min_value"],
-        monster_selection._enemies[enemy_index]["time_lapse_max_value"],
-        monster_selection._enemies[enemy_index]["encounter_chance"],
-    )
+    # enemy_counter = fight_sim.time_lapse(
+    #     monster_selection._enemies[enemy_index]["time_lapse_min_value"],
+    #     monster_selection._enemies[enemy_index]["time_lapse_max_value"],
+    #     monster_selection._enemies[enemy_index]["encounter_chance"],
+    # )
 
-    while cave_chest is not True:
+
+    while enemy_counter <= 40:
         enemy_index = monster_selection.cave_enemy_selection()
         enemy = monster_selection._enemies[enemy_index]["monster"]
         fight_sim = fight_simulation(enemy, sloth, enemy_index, enemy_counter)

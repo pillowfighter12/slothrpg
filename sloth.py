@@ -37,7 +37,19 @@ class mainsloth:
         self._damage = self.__sloth_types[hero]["attributes"]["dmg"]
         self._weapons = self.__sloth_types[hero]["weapons"]
         self._inventory = inventory()
-    
+
+    def potion_heal(self, hp):
+        self._hp += hp 
+        if self._hp > self._maxhp:
+            self._hp = self._maxhp
+
+    def potion_elixer(self, maxhp):
+        self._maxhp += maxhp
+        self._hp += maxhp
+
+
+
+        
 
 
 

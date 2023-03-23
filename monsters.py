@@ -1,74 +1,78 @@
 import random
-
-class monster:
-    def __init__(self, name, hp, damage):
-        self.name = name
-        self.hp = hp
-        self.damage = damage
-
-#make attack more modular in the near future
+import copy
+from inventory_potions_weapons import inventory
 
 
-def cave_enemy_selection(enemies):
-    enemy_index = random.randint(0, len(enemies) - 1)
-    return enemy_index
+class Monster:
+    def __init__(self, name, hp, damage, drop_potion_chance):
+        self._name = name
+        self._hp = hp
+        self._damage = damage
+        self._drop_potion_chance = drop_potion_chance
 
-def attack_enemy(enemy, sloth, enemy_counter):
-    damage_given = sloth.damage
-    enemy.hp -= damage_given
-    print(f"You attack the {enemy.name} for {damage_given} damage!")
-    return check_fight_status(enemy, sloth, enemy_counter)
-
-
-def run_away(enemy, sloth, enemy_counter):
-    chance = random.random()
-    if chance <= enemies[enemy_index]["run_chance"]:
-        print("You successfully ran away from the fight")
-        return True
-    else:
-        print("You failed to run away and the fight continues")
-        return False
+    def drop_potion(self):
+        if random.random() <= self._drop_potion_chance:
+            potion = inventory.getRandomPotion()
+            print(f"{self._name} dropped a {potion._name}!")
+            return potion
     
-def check_fight_status(enemy, sloth, enemy_counter):
-    if enemy.hp <= 0 and sloth.hp >= 0:
-        print(f"You defeated the {enemy.name}!")
-        return True
-    elif enemy.hp >= 0 and sloth.hp <= 0:
-        print(f"{sloth.name} has fainted and you must go back to the start")
-        main()
-        return True
-    else:
-        return False
-
 enemies = [{
-        "monster": monster("Cave Spider",hp=50, damage=15),
+        "monster": Monster("Cave Spider",hp=50, damage=15, drop_potion_chance=0.9),
         "encounter_chance": 0.47,
         "pre_encounter_message": "The cave continues to get darker the deeper you go in",
         "time_lapse_min_value": 10,
         "time_lapse_max_value": 20,
-        "after_encounter_message": "After defeating the cave spider you found a torch and some armor",
+        "after_encounter_message": "You have successfully defeated the Cave Spider",
         "possible_location": "cave_entrance",
-        "run_chance": .9
+        "run_chance": .9,
     },
 
     {   
-        "monster": monster("Cave Monkey", 50, 20),
+        "monster": Monster("Cave Monkey", hp=60, damage=20, drop_potion_chance=0.9),
         "encounter_chance": 0.7,
         "pre_encounter_message": "The cave continues to get darker the deeper you go in",
         "time_lapse_min_value": 10,
         "time_lapse_max_value": 20,
-        "after_encounter_message": "After defeating the cave monkey you found a torch and some armor", 
+        "after_encounter_message": "You have successfully defeated the Cave Monkey!", 
         "possible_location": "cave_entrance",
-        "run_chance": .7 
+        "run_chance": .7,
     },
     
     {
-        "monster": monster("Cave Troll", hp=70, damage=23),
+        "monster": Monster("Cave Troll", hp=70, damage=23, drop_potion_chance=0.9),
         "encounter_chance": 0.10,
         "pre_encounter_message": "The cave continues to get darker the deeper you go in",
         "time_lapse_min_value": 3,
         "time_lapse_max_value": 6,
-        "after_encounter_message": "After defeating the cave troll you found a torch and some armor",
+        "after_encounter_message": "You have successfully defeated the Cave Troll!",
         "possible_location": "cave_entrance",
-        "run_chance": .2
+        "run_chance": .2,
     }]
+
+
+# bosses = [{
+#         "boss": Monster("Godrick the Beetle",hp=1000, damage=75),
+#         "encounter_chance": 1,
+#         "pre_encounter_message": "The cave continues to get darker the deeper you go in",
+#         "time_lapse_min_value": 10,
+#         "time_lapse_max_value": 20,
+#         "after_encounter_message": "You have successfully defeated the Godrick the Beetle",
+#         "possible_location": "cave_pit",
+#         "run_chance": .0,
+#         "drop_potion_chance":1
+#     }]
+
+enemies_copy = copy.deepcopy(enemies)
+
+class MonsterManager:
+    def __init__(self, enemies):
+        self._enemies = copy.deepcopy(enemies)
+        self._enemies_copy = copy.deepcopy(enemies)
+
+    def cave_enemy_selection(self):
+        enemy_index = random.randint(0, len(self._enemies) - 1)
+        self._enemies = copy.deepcopy(self._enemies_copy)
+        return enemy_index
+
+
+

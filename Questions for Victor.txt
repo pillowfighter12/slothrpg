@@ -1,0 +1,16 @@
+
+    def potion_list(self):
+    ###### p for p why do we to represent it then create a representation of the variable? - List comprehension
+    ###### Why cant we just write it as for p in self
+
+
+        potion_l = [p for p in self._items if isinstance(p, potion)]
+        if len(potion_l) == 0:
+            print("\nThere are currently no potions in the inventory\n")
+
+
+sloth parameter and its passings
+
+
+Inventory question
+

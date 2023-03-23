@@ -148,12 +148,6 @@ _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
                 if input_choice not in ["A", "B", "C"]:
                     print("\nInput must be A, B, or C\n")
 
-
-
-       
-
-
-
 potions = {
     "small_potion": potion("small potion", "small_potion", occurence_chance = 0.4, id = 1),
     "medium_potion": potion("medium potion", "medium_potion", occurence_chance = 0.2, id = 2),

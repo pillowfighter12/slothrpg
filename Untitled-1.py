@@ -1,0 +1,1 @@
+Current issues when main sloth has less than 0 hp the sloth doesnt faint until the turn after

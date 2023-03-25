@@ -1,6 +1,6 @@
 import random
 from monsters import enemies
-
+from text_decoration import text_decoration
 
 import time
 
@@ -13,16 +13,17 @@ class fight_simulation:
         self._fight_over = False
         self._enemy_counter = enemy_counter
      
-        
+
 
     def engage_fight(self):
         actions = {
             "A": self.attack_enemy,
             "B": self.run_away,
         }
-
+        print(enemies[self._enemy_index]["pre_encounter_message"], "\n\n")
+        text_decoration.print_health([self._sloth._name, self._sloth._hp, self._enemy._name, self._enemy._hp])
         while not self._fight_over:
-            print("""\n>>>>>>> A: to attack B: to run! <<<<<<<\n""")
+            text_decoration.input_decorator("What would you like to do?",["A - Attack!", "B - Run Away!"])
             choice = input().upper()
 
             if choice not in actions:
@@ -40,23 +41,18 @@ class fight_simulation:
                 self._sloth._inventory.add_item(self._enemy.drop_potion())
                 self._fight_over = True
             # Enemy Victory
-            if self._enemy._hp >= 0 and self._sloth._hp <= 0:
+            if  self._sloth._hp <= 0 and self._enemy._hp >= 0:
                 print(f"""{self._sloth._name} has fainted and you must go back to the start""")
                 self._fight_over = True
             # Sloth takes damage
             if not self._fight_over:
                 self._sloth._hp -= self._enemy._damage
-                print(f"""\nYou have taken > {self._enemy._damage} < damage to the face"
------------------------------------------------------------                
-{self._sloth._name} has  {self._sloth._hp} health remaining
-{self._enemy._name} has  {self._enemy._hp} health remaining
------------------------------------------------------------""")
-            #self._sloth._inventory.inv_options(self._sloth)
-
+                print(f"""\n* You did {self._sloth._damage} damage to {self._enemy._name} *\n""")
+                text_decoration.print_health([self._sloth._name, self._sloth._hp, self._enemy._name, self._enemy._hp])
+                
         self._fight_over = False
 
     def time_lapse(self, min_time, max_time, encounter_chance):
-        print(enemies[self._enemy_index]["pre_encounter_message"])
         for i in range(random.randint(min_time, max_time)):
             enemy_search = True
             enemy_found = self._enemy
@@ -68,21 +64,13 @@ class fight_simulation:
             if not enemy_found and enemy_search == False:
                 print("\nYou didn't encounter any enemies")
                 break
-
-            print(f"""A > {self._enemy._name} < approaches!
-The {self._enemy._name} has {self._enemy._hp} hitpoints!
-
-""")
             self.engage_fight()
-            self._enemy_counter += 1
-            print(self._enemy_counter)
-            return self._enemy_counter
+            self._sloth.increment_enemy_counter()
+            print(f"You have encountered", self._sloth.get_enemy_counter())
+            return self._sloth.get_enemy_counter()
 
     def attack_enemy(self):
         self._enemy._hp -= self._sloth._damage
-        print(f"""\nYou did > {self._sloth._damage} < damage to {self._enemy._name}!
-        
-        """)
 
     def run_away(self):
         if random.random() < enemies[self._enemy_index]["run_chance"]:

@@ -2,87 +2,113 @@ import sys
 from monsters import enemies_copy, MonsterManager
 from sloth import mainsloth 
 from fight_sequence_random import fight_simulation
+from text_decoration import text_decoration
+
+
+
 
 def main():
-    
-    sloth_name = input("""Enter your sloth name:
-""")
-    
+    text_decoration.center_message(""">>> Enter your sloth name <<<""")
+    sloth_name = input()
     sloth = mainsloth(sloth_name, "Nomad")
-    print(f"""
+    text_decoration.center_message(f"""\nWelcome {sloth_name}""")
+    welcome_message(sloth)
 
-Welcome {sloth_name}
-""")
-    welcome_message()
+
+def welcome_message(sloth):
+    text_decoration.story_banner("-", f"""You startle as you awaken on the ground with a broken branch next to you.
+As you cumbersously investigate your surroundings you come across some foot prints and begin to follow.
+Eventually you come across two pathes.""")
+    text_decoration.input_decorator("What would you like to do?", ["A - to go deeper into the cave", "B - to go back to sleep"])
+
     path = path_choice()
     if path == "A":
-        enter_cave(sloth)
+        cave_entrance(sloth)
     else: 
         sys.exit()
-
-
-def welcome_message():
-    type_a = "\u0332".join("Type A:")
-    type_b = "\u0332".join("Type B:")
-    print(f"""
-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
-    
-You startle as you awaken on the ground with a broken branch next to you.
-As you cumbersously investigate your surroundings you come across some foot prints and begin to follow.
-
-Eventually you come across two pathes.
-
--_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-
->>> What would you like to do? <<<
-
-Type A: To follow the path going towards the cave.
-Type B: To go back to sleep
-
-""")
 
 
 def path_choice():
     while True:
         input_choice = input()
         if input_choice not in ["A", "B"]:
-            print("Invalid input")
+            text_decoration.invalid_input("Invalid input")
         else:
             return input_choice
     
 
-def enter_cave(sloth):
-    # cave_chest = False
-    
+def cave_entrance(sloth):
+    # sloth.add_location_visited("cave_entrance")
+    # cave_cavern_found = False
+    # sloth_location_choice = False
     monster_selection = MonsterManager(enemies_copy)  # use the copy of the enemies list
-    enemy_counter = 0
-    # enemy_index = monster_selection.cave_enemy_selection()
-    # enemy = monster_selection._enemies[enemy_index]["monster"]
+    # while not sloth_location_choice:
+    while sloth.get_enemy_counter() < 3:
 
-    # fight_sim = fight_simulation(enemy, sloth, enemy_index, enemy_counter)
-
-    # enemy_counter = fight_sim.time_lapse(
-    #     monster_selection._enemies[enemy_index]["time_lapse_min_value"],
-    #     monster_selection._enemies[enemy_index]["time_lapse_max_value"],
-    #     monster_selection._enemies[enemy_index]["encounter_chance"],
-    # )
-
-
-    while enemy_counter <= 40:
-        enemy_index = monster_selection.cave_enemy_selection()
+        print(f"This is a test!! {sloth._enemy_counter}")
+        enemy_index = monster_selection.cave_enemy_selection("cave_entrance")
         enemy = monster_selection._enemies[enemy_index]["monster"]
-        fight_sim = fight_simulation(enemy, sloth, enemy_index, enemy_counter)
-
-        enemy_counter = fight_sim.time_lapse(
+        fight_sim = fight_simulation(enemy, sloth, enemy_index, sloth._enemy_counter)
+        sloth._enemy_counter = fight_sim.time_lapse(
             monster_selection._enemies[enemy_index]["time_lapse_min_value"],
             monster_selection._enemies[enemy_index]["time_lapse_max_value"],
-            monster_selection._enemies[enemy_index]["encounter_chance"],
-        )
+            monster_selection._enemies[enemy_index]["encounter_chance"],)
+        sloth._inventory.inv_options(sloth)
+    cave_story_p1(sloth)
 
-        print(f"You have encountered {enemy_counter} enemies")
+        # if sloth.get_enemy_counter() < 3:
+        #     pass
+
+        # elif not cave_cavern_flag and sloth.get_enemy_counter() >= 3:
+        #     sloth_location_choice = True
+        #     cave_cavern_found = True
+        #     cave_caverns(sloth)
+
+        # else:
+        #     cave_cavern_flag is False and sloth.get_enemy_counter() > 3:
+        #     sloth_location_choice = True
+        #     cave_cavern_flag = True
+        #     cave_story_p1(sloth)
+        #     return cave_cavern_flag
+            
+            
+def cave_story_p1(sloth):
+    text_decoration.story_banner("-", f"""YOU FOUND THE CAVE CAVERNS!!!!!!!!!!!!!!!!!!!!!!!!!!!!""")
+    text_decoration.input_decorator("What would you like to do?", ["A - To go deeper into the cave", "B - To try and escape the cave"])
+
+    path = path_choice()
+    if path == "A":
+        cave_caverns(sloth)
+    else: 
+        text_decoration.story_banner("-", f"""Not so sure about your decision to continue forward you decided to try and find your way back out of the cave.""")
+        cave_entrance(sloth)
+
+
+def path_choice():
+    while True:
+        input_choice = input()
+        if input_choice not in ["A", "B"]:
+            text_decoration.invalid_input("Invalid input")
+        else:
+            return input_choice
+        
+
+def cave_caverns(sloth):
+    # cave_chest = False
+    sloth.add_location_visited("cave_caverns")
+
+    monster_selection = MonsterManager(enemies_copy)  # use the copy of the enemies list
+    while sloth.get_enemy_counter() <= 8:
+        print(f"This is a test!! {sloth._enemy_counter}")
+        enemy_index = monster_selection.cave_enemy_selection("cave_caverns")
+        enemy = monster_selection._enemies[enemy_index]["monster"]
+        fight_sim = fight_simulation(enemy, sloth, enemy_index, sloth._enemy_counter)
+        sloth._enemy_counter = fight_sim.time_lapse(
+            monster_selection._enemies[enemy_index]["time_lapse_min_value"],
+            monster_selection._enemies[enemy_index]["time_lapse_max_value"],
+            monster_selection._enemies[enemy_index]["encounter_chance"],)
         sloth._inventory.inv_options(sloth)
 
 
-
-
 main()
+

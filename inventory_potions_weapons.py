@@ -1,9 +1,10 @@
 import random
-
+from text_decoration import text_decoration
 
 class item:
     def __init__(self, name):
         self._name = name
+
 
 class potion(item):
     def __init__(self, name, effect, occurence_chance, id):
@@ -11,6 +12,7 @@ class potion(item):
         self._effect = effect
         self._occurence_chance = occurence_chance
         self._id = id
+
 
     def apply(self, sloth):
         print('inv:')
@@ -25,9 +27,6 @@ class potion(item):
         sloth._inventory.remove_item(self)
         
 
-   
-
-            
 class weapon(item):
     def __init__(self, item, effect):
         self._item = item
@@ -39,17 +38,21 @@ class weapon(item):
         if self.effect == "sloth_claws":
             sloth._damage = 24
 
+
 class inventory:
     def __init__(self):
         self._items = []
+
 
     def add_item(self, item):
         if isinstance(item, (potion, weapon)):
             self._items.append(item)
 
+
     def remove_item(self, item):
         if isinstance(item, (potion, weapon)):
             self._items.remove(item)
+
 
     def potion_list(self, potion_l):
         # Create a dictionary of potion names and quantities
@@ -70,6 +73,7 @@ class inventory:
                 #i = name_to_id[p]
                 print(f"{p}, x {q}, Type: {i} to use.\n")
 
+
     def potion_inventory_options(self, sloth):
         potion_l = [p for p in self._items if isinstance(p, potion)]
         if len(potion_l) == 0:
@@ -83,26 +87,18 @@ class inventory:
             print(sloth._hp)
 
 
-
-
-
-
-
-
-
-    #static because we dont need any information related to the class itself and we dont want to create another instance of inventory     
     @staticmethod
     def getRandomPotion():
         #can be written as potion_key = potion_list[0] instead of using index at the end
         potion_key = random.choices(list(potions.keys()), weights=[potion._occurence_chance for potion in potions.values()],k=1)[0]
         return potions[potion_key]
 
+
     def inv_options(self, sloth):
         while True:
-            print(f"""\n****** Your current hp is {sloth._hp} ******""")
-            print("""-----------------------------------------------------------------------------------------------------------
-What would you like to do? A: Access your inventory? B: Take some time to rest? C: Continue into the cave?\n-----------------------------------------------------------------------------------------------------------
-""")
+            text_decoration.input_decorator("You have a few moments to rest, what would you like to do?", ["A: Access your inventory?", "B: Take some time to rest?", "C: Continue searching in the cave"])
+
+            # text_decoration.input_decorator("You have a few moments to rest, what would you like to do?", ["A: Access your inventory?", "B: Take some time to rest?", "C: Continue into the cave?"])
             input_choice = input()
             if input_choice == "A":
                 print("Would you like to access your A. weapons or B. potions?")
@@ -111,25 +107,9 @@ What would you like to do? A: Access your inventory? B: Take some time to rest? 
                     print("Not available at this time")
                 elif inventory_choice == "B":
                     self.potion_inventory_options(sloth)
-
-                    
-
-
-              #######################################
-              #######################################
-              #######################################
-              #######################################
-              #######################################
-              #######################################
-
             elif input_choice == "B":
-                print("""
--_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_   
+                text_decoration.story_banner("*", "You decided to lay next to a rock in a dangerous cave, luckily no monsters snuck up on you!")
 
-You decided to lay next to a rock in a dangerous cave, luckily no monsters snuck up on you! 
-
-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
-""")
                 sloth._hp = sloth._maxhp
                 print(f"""\n****** Your health is now back to {sloth._maxhp} ******\n""")
 
@@ -142,11 +122,15 @@ _-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-
                 """) 
 
             elif input_choice == "C":
-                print("\nYou decided to go deeper into the cave\n")
                 break
             else:
                 if input_choice not in ["A", "B", "C"]:
                     print("\nInput must be A, B, or C\n")
+        
+        
+
+
+
 
 potions = {
     "small_potion": potion("small potion", "small_potion", occurence_chance = 0.4, id = 1),
@@ -160,3 +144,9 @@ weapons = {
     "small_torch": weapon("torch", "small_torch"),
     "sloth_claws": weapon("claws", "sloth_claws"),
 }
+
+
+
+# locations = {
+#     "cave_entrance": [("A", "Continue searching the Cave Entrance"), ("B", ]
+# }

@@ -39,8 +39,8 @@ class mainsloth:
         self._weapons = self.__sloth_types[hero]["weapons"]
         self._inventory = inventory()
         self._enemy_counter = enemy_counter
-        self._locations_visited = {}
-        self._current_location = "start"
+        # self._locations_visited = {}
+        # self._current_location = "start"
 
     def get_enemy_counter(self):
         return self._enemy_counter

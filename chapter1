@@ -72,16 +72,16 @@ def cave_entrance(sloth):
         #     return cave_cavern_flag
             
             
-def cave_story_p1(sloth):
-    text_decoration.story_banner("-", f"""YOU FOUND THE CAVE CAVERNS!!!!!!!!!!!!!!!!!!!!!!!!!!!!""")
-    text_decoration.input_decorator("What would you like to do?", ["A - To go deeper into the cave", "B - To try and escape the cave"])
+# def cave_story_p1(sloth):
+#     text_decoration.story_banner("-", f"""YOU FOUND THE CAVE CAVERNS!!!!!!!!!!!!!!!!!!!!!!!!!!!!""")
+#     text_decoration.input_decorator("What would you like to do?", ["A - To go deeper into the cave", "B - To try and escape the cave"])
 
-    path = path_choice()
-    if path == "A":
-        cave_caverns(sloth)
-    else: 
-        text_decoration.story_banner("-", f"""Not so sure about your decision to continue forward you decided to try and find your way back out of the cave.""")
-        cave_entrance(sloth)
+#     path = path_choice()
+#     if path == "A":
+#         cave_caverns(sloth)
+#     else: 
+#         text_decoration.story_banner("-", f"""Not so sure about your decision to continue forward you decided to try and find your way back out of the cave.""")
+#         cave_entrance(sloth)
 
 
 def path_choice():

@@ -21,7 +21,7 @@ class Monster:
 enemies = [{
         "monster": Monster("Cave Spider",hp=50, damage=15, drop_potion_chance=0.05),
         "encounter_chance": 0.47,
-        "pre_encounter_message": "A large Cave Spider fell ontop of you!",
+        "pre_encounter_message": "\nA large Cave Spider fell ontop of you!",
         "time_lapse_min_value": 10,
         "time_lapse_max_value": 20,
         "after_encounter_message": "\n***** You have successfully defeated the Cave Spider! ***** \n",
@@ -32,7 +32,7 @@ enemies = [{
     {   
         "monster": Monster("Cave Monkey", hp=60, damage=20, drop_potion_chance=0.1),
         "encounter_chance": 0.7,
-        "pre_encounter_message": "Why is there a monkey in the cave?",
+        "pre_encounter_message": "\nWhy is there a monkey in the cave?",
         "time_lapse_min_value": 10,
         "time_lapse_max_value": 20,
         "after_encounter_message": "\n***** You have successfully defeated the Cave Monkey! ***** \n", 
@@ -43,7 +43,7 @@ enemies = [{
     {
         "monster": Monster("Cave Troll", hp=70, damage=23, drop_potion_chance=0.2),
         "encounter_chance": 0.10,
-        "pre_encounter_message": "A Giant Troll started moving towards you!",
+        "pre_encounter_message": "\nA Giant Troll started moving towards you!",
         "time_lapse_min_value": 3,
         "time_lapse_max_value": 6,
         "after_encounter_message": "\n***** You have successfully defeated the Cave Troll! ***** \n",
@@ -53,7 +53,7 @@ enemies = [{
 {
         "monster": Monster(" ?????? ",hp=50, damage=15, drop_potion_chance=0.1),
         "encounter_chance": 0.47,
-        "pre_encounter_message": "A large ????? fell ontop of you!",
+        "pre_encounter_message": "\nA large ????? fell ontop of you!",
         "time_lapse_min_value": 10,
         "time_lapse_max_value": 20,
         "after_encounter_message": "\n***** You have successfully defeated the ????! ***** \n",
@@ -64,7 +64,7 @@ enemies = [{
     {   
         "monster": Monster("Gloom Gobbler", hp=160, damage=30, drop_potion_chance=0.1),
         "encounter_chance": 0.7,
-        "pre_encounter_message": "A Gloom Gobbler came from beneath the ground!",
+        "pre_encounter_message": "\nA Gloom Gobbler came from beneath the ground!",
         "time_lapse_min_value": 10,
         "time_lapse_max_value": 20,
         "after_encounter_message": "\n***** You have successfully defeated the Gloom Gobbler! ***** \n", 
@@ -75,26 +75,22 @@ enemies = [{
     {
         "monster": Monster("Batsquatch", hp=200, damage=35, drop_potion_chance=0.25),
         "encounter_chance": 0.10,
-        "pre_encounter_message": "A Batsquatch started attacking you!",
+        "pre_encounter_message": "\nA Batsquatch started attacking you!",
         "time_lapse_min_value": 3,
         "time_lapse_max_value": 6,
         "after_encounter_message": "\n***** You have successfully defeated the Batsquatch! ***** \n",
         "possible_location": "cave_caverns",
         "run_chance": .2,
+
+        "boss": Monster("Godrick the Beetle",hp=1000, damage=75, drop_potion_chance=0),
+        "encounter_chance": .4,
+        "pre_encounter_message": "The cave continues to get darker the deeper you go in",
+        "time_lapse_min_value": 10,
+        "time_lapse_max_value": 20,
+        "after_encounter_message": "You have successfully defeated the Godrick the Beetle",
+        "possible_location": "cave_pit",
+        "run_chance": .0,
     }]
-
-
-# bosses = [{
-#         "boss": Monster("Godrick the Beetle",hp=1000, damage=75),
-#         "encounter_chance": 1,
-#         "pre_encounter_message": "The cave continues to get darker the deeper you go in",
-#         "time_lapse_min_value": 10,
-#         "time_lapse_max_value": 20,
-#         "after_encounter_message": "You have successfully defeated the Godrick the Beetle",
-#         "possible_location": "cave_pit",
-#         "run_chance": .0,
-#         "drop_potion_chance":1
-#     }]
 
 enemies_copy = copy.deepcopy(enemies)
 
@@ -110,6 +106,7 @@ class MonsterManager:
         entrance_enemies_indices = [
             i for i, e in enumerate(self._enemies)
             if e["possible_location"] == location]
+        
         # Select a random enemy from the list of cave entrance enemies
         enemy_index = random.choice(entrance_enemies_indices)
         # Reset the enemy list to its original state

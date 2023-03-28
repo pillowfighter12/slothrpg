@@ -15,7 +15,7 @@ class text_decoration:
         # Create the banner string
         banner = banner * banner_width
 
-        print(f"\n\n{banner}")
+        print(f"\n{banner}")
         for line in message_lines:
             print(f"{line:<{banner_width - 4}}  ")
         print(f"{banner}\n")
@@ -50,3 +50,6 @@ class text_decoration:
         print(f"\n{banner}\n")
 
 
+    @staticmethod
+    def cavern_treasure():
+        text_decoration.center_message("✰✰✰✰✰ you found treasure deep in the caverns! ✰✰✰✰✰")

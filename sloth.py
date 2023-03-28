@@ -1,4 +1,5 @@
 from inventory_potions_weapons import inventory
+from text_decoration import text_decoration
 
 class mainsloth:
     #Private so nobody can modify outside of the class, will always be same data.
@@ -14,16 +15,16 @@ class mainsloth:
 
         "Tank": {
             "attributes": {
-                "maxhp": 200,
-                "hp": 200,
-                "dmg": 25,
+                "maxhp": 300,
+                "hp": 300,
+                "dmg": 35,
             },
             "weapons": ["sword", "axe"]
         },
         "Slinger": {
             "attributes": {
-                "maxhp": 125,
-                "hp": 125,
+                "maxhp": 225,
+                "hp": 225,
                 "dmg": 50,
             },
             "weapons": ["slingshot", "bow"]
@@ -31,16 +32,16 @@ class mainsloth:
     }
     
 
-    def __init__(self, name, hero, enemy_counter=0):
+    def __init__(self, name, sloth_type, enemy_counter=0):
         self._name = name
-        self._maxhp = self.__sloth_types[hero]["attributes"]["maxhp"]
+        self._maxhp = self.__sloth_types[sloth_type]["attributes"]["maxhp"]
         self._hp = self._maxhp
-        self._damage = self.__sloth_types[hero]["attributes"]["dmg"]
-        self._weapons = self.__sloth_types[hero]["weapons"]
+        self._damage = self.__sloth_types[sloth_type]["attributes"]["dmg"]
+        self._weapons = self.__sloth_types[sloth_type]["weapons"]
         self._inventory = inventory()
         self._enemy_counter = enemy_counter
-        # self._locations_visited = {}
-        # self._current_location = "start"
+        self._location = []
+
 
     def get_enemy_counter(self):
         return self._enemy_counter
@@ -48,6 +49,11 @@ class mainsloth:
 
     def increment_enemy_counter(self):
         self._enemy_counter += 1
+        return self._enemy_counter
+
+
+    def reset_enemy_counter(self):
+        self._enemy_counter = 0
         return self._enemy_counter
 
 
@@ -61,14 +67,29 @@ class mainsloth:
         self._maxhp += maxhp
         self._hp += maxhp
 
+
     def add_location_visited(self, location):
-        self._locations_visited[location] = True
+        if location not in self._location:
+            self._location.append(location)
+        else:
+            pass
+    
 
-    def get_location_visited(self):
-        return self._current_location
+    def change_sloth_type(self):
+        text_decoration.input_decorator("What weapon would you like to select?", ["A - To use the axe", "B - To use the slingshot"])
+        user_input = input()
+        if user_input == "A":
+            print("You have chosen the axe!")
+            self._damage = self.__sloth_types["Tank"]["attributes"]["dmg"]
+            self._maxhp += self.__sloth_types["Tank"]["attributes"]["maxhp"]
+        elif user_input == "B":
+            print("You have chosen the sling shot!")
+            self._damage = self.__sloth_types["Slinger"]["attributes"]["dmg"]
+            self._maxhp += self.__sloth_types["Slinger"]["attributes"]["maxhp"]
+        self._hp = self._maxhp
+            
 
 
-        
 
 
 

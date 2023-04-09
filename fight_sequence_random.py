@@ -1,7 +1,7 @@
 import random
 from monsters import enemies
 from text_decoration import text_decoration
-
+import sys
 import time
 
 
@@ -44,6 +44,7 @@ class fight_simulation:
             if  self._sloth._hp <= 0 and self._enemy._hp >= 0:
                 print(f"""{self._sloth._name} has fainted and you must go back to the start""")
                 self._fight_over = True
+                sys.exit()
             # Sloth takes damage
             if not self._fight_over:
                 self._sloth._hp -= self._enemy._damage
@@ -66,7 +67,9 @@ class fight_simulation:
                 break
             self.engage_fight()
             self._sloth.increment_enemy_counter()
-            print(f"You have encountered", self._sloth.get_enemy_counter())
+            self._sloth.increment_total_enemy_counter()
+            # print(f"You have encountered", self._sloth.get_enemy_counter())
+            # print(f"You have encountered", self._sloth.get_total_enemy_counter())
             return self._sloth.get_enemy_counter()
 
     def attack_enemy(self):

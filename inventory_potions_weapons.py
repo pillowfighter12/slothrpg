@@ -96,7 +96,7 @@ class inventory:
 
     def inv_options(self, sloth):
         while True:
-            text_decoration.input_decorator("You have a few moments to rest, what would you like to do?", ["A: Access your inventory?", "B: Take some time to rest?", "C: Continue A"])
+            text_decoration.input_decorator("You have a few moments to rest, what would you like to do?", ["A: Access your inventory?", "B: Take some time to rest?", "C: Continue"])
             input_choice = input()
             if input_choice == "A":
                 print("Would you like to access your A. weapons or B. potions?")

@@ -53,3 +53,7 @@ class text_decoration:
     @staticmethod
     def cavern_treasure():
         text_decoration.center_message("✰✰✰✰✰ you found treasure deep in the caverns! ✰✰✰✰✰")
+    
+    @staticmethod
+    def wait_for_any_key():
+        input("Press any key to continue...")

@@ -15,24 +15,24 @@ class mainsloth:
 
         "Tank": {
             "attributes": {
-                "maxhp": 300,
+                "maxhp": 600,
                 "hp": 300,
-                "dmg": 35,
+                "dmg": 135,
             },
             "weapons": ["sword", "axe"]
         },
         "Slinger": {
             "attributes": {
-                "maxhp": 225,
+                "maxhp": 500,
                 "hp": 225,
-                "dmg": 50,
+                "dmg": 150,
             },
             "weapons": ["slingshot", "bow"]
         },
     }
     
 
-    def __init__(self, name, sloth_type, enemy_counter=0):
+    def __init__(self, name, sloth_type, enemy_counter=0, total_enemy_counter=0):
         self._name = name
         self._maxhp = self.__sloth_types[sloth_type]["attributes"]["maxhp"]
         self._hp = self._maxhp
@@ -41,10 +41,18 @@ class mainsloth:
         self._inventory = inventory()
         self._enemy_counter = enemy_counter
         self._location = []
+        self._total_enemy_counter = total_enemy_counter
 
 
     def get_enemy_counter(self):
         return self._enemy_counter
+    
+    def increment_total_enemy_counter(self):
+        self._total_enemy_counter += 1
+        return self._total_enemy_counter
+    
+    def get_total_enemy_counter(self):
+        return self._total_enemy_counter
     
 
     def increment_enemy_counter(self):

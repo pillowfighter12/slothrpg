@@ -1,5 +1,7 @@
 from inventory_potions_weapons import inventory
 from text_decoration import text_decoration
+import requests
+from requests.exceptions import RequestException
 
 class mainsloth:
     #Private so nobody can modify outside of the class, will always be same data.
@@ -10,7 +12,6 @@ class mainsloth:
                 "hp": 100,
                 "dmg": 25,
             },
-            "weapons": ["claws"]
         },
 
         "Tank": {
@@ -19,7 +20,6 @@ class mainsloth:
                 "hp": 300,
                 "dmg": 135,
             },
-            "weapons": ["sword", "axe"]
         },
         "Slinger": {
             "attributes": {
@@ -27,7 +27,6 @@ class mainsloth:
                 "hp": 225,
                 "dmg": 150,
             },
-            "weapons": ["slingshot", "bow"]
         },
     }
     
@@ -37,7 +36,6 @@ class mainsloth:
         self._maxhp = self.__sloth_types[sloth_type]["attributes"]["maxhp"]
         self._hp = self._maxhp
         self._damage = self.__sloth_types[sloth_type]["attributes"]["dmg"]
-        self._weapons = self.__sloth_types[sloth_type]["weapons"]
         self._inventory = inventory()
         self._enemy_counter = enemy_counter
         self._location = []
@@ -98,9 +96,76 @@ class mainsloth:
             
 
 
+    @staticmethod
+    def create_sloth():
+        text_decoration.center_message(""">>> Enter your sloth name <<<""")
+        sloth_name = input()
+        sloth = mainsloth(sloth_name, "Nomad")
+        text_decoration.center_message(f"""\nWelcome {sloth_name}""")
+        sloth.add_sloth()
+        return sloth
+
+
+    def add_sloth(self) -> dict:
+        data = {
+            "name": self._name,
+            "max_hp": self._maxhp,
+            "current_hp": self._hp,
+            "dmg": self._damage
+        }
+        make_request('POST', 'sloths', data)
+
+
+    # def get_all_sloths(self):
+    #     response = make_request("GET", "sloths", {})
+    #     for sloth in response:
+    #         print(f"ID: {sloth['id']}, {sloth['name']}")
+    #     return response
+
+
+    @staticmethod
+    def get_all_sloths():
+        response = make_request("GET", "sloths", {})
+        for sloth in response:
+            print(f"ID: {sloth['id']}, {sloth['name']}")
+        return response
+
+
+    def select_sloth(id):
+        return make_request("GET", f"sloths/{id}", {})
 
 
 
-    
 
+
+def make_request(request_type, path, data):
+    url = f"http://127.0.0.1:9090/{path}"
+    try:
+        response = ""
+
+        if request_type == 'POST':
+            response = requests.post(url, json=data)
+        elif request_type == 'GET':
+            response = requests.get(url)
+        elif request_type == 'PATCH':
+            response = requests.patch(url, json=data)
+            # ask user if they want to delete the sloth, say at end of the game.
+        elif request_type == 'DELETE':
+            response = requests.delete(url, json=data)
+
+        if response.status_code == 200:
+            print("POST request was successful!")
+            return response.json()  # If the response is JSON
+        else:
+            print(f"Request failed with status code: {response.status_code}")
+            return {"error": f"Request failed with status code: {response.status_code}"}
+    except RequestException as e:
+        print(f"An error occurred while sending the POST request: {e}")
+        return {"error": f"An error occurred while sending the POST request: {e}"}
+
+
+
+mainsloth.create_sloth()
+
+sloths = mainsloth.get_all_sloths()
 

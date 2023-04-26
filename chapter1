@@ -7,17 +7,36 @@ from text_decoration import text_decoration
 
 
 def main():
-    text_decoration.center_message(""">>> Enter your sloth name <<<""")
-    sloth_name = input()
-    sloth = mainsloth(sloth_name, "Nomad")
-    text_decoration.center_message(f"""\nWelcome {sloth_name}""")
-    cave_entrance(sloth)
+    # 3. Do you want to delete a sloth?
+    text_decoration.input_decorator("""Would you like to load, create, or delete a sloth?""", ["1. To load a Sloth", "2. To create a Sloth", "3. To delete a Sloth"])
+    # handle the option chosen
+    option = input()
+    if option == "1":
+        sloth = mainsloth.get_all_sloths()
+        if len(sloth) == 0:
+            print("No sloths found.")
+        else:
+            pass
+            selection = input()
+            sloth = mainsloth.select_sloth(selection)
+            cave_entrance(sloth)
+            
+    if option == "2":
+        # create a sloth
+        sloth = mainsloth.create_sloth()
+        cave_entrance(sloth)
+
+    if option == 3:
+        pass
+
+
 
 
 def cave_entrance(sloth):    
     if "cave_entrance" not in sloth._location:     
         text_decoration.story_banner("-", f"""A bolt of lightning strikes a tree branch above you, causing it to snap and you find yourself falling. 
-As you stumble to your feet, you notice a set of mysterious footprints in the damp earth. 
+As you stumble to your feet, you notice a set of mysterious footprints 
+in the damp earth. 
 Your curiosity piqued, you decide to follow them, eventually leading you to the entrance of a dark and foreboding cave.""") 
         text_decoration.wait_for_any_key()           
     else:
@@ -26,6 +45,7 @@ Your curiosity piqued, you decide to follow them, eventually leading you to the 
         if user_input != "A":
             cave_caverns(sloth)
     cave_fight(sloth, "cave_entrance")
+    mainsloth.add_sloth(sloth)
     cave_caverns(sloth)
 
 
@@ -42,6 +62,8 @@ The silence is broken only by the occasional sound of a small animal scurrying a
         if user_input != "A":
             cave_fight(sloth, "cave_caverns")
             cave_caverns(sloth)
+        mainsloth.add_sloth(sloth)
+
         cave_entrance(sloth)
 
 
@@ -51,6 +73,7 @@ def cavern_treasure(sloth):
         text_decoration.center_message("✰✰✰✰✰ you found treasure deep in the caverns! ✰✰✰✰✰")
         sloth.add_location_visited("cave_caverns")
         sloth.change_sloth_type()
+        mainsloth.add_sloth(sloth)
         cave_pit(sloth)
 
 
